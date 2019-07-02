@@ -133,7 +133,7 @@
 					styleClass="btnCancelSave" onclick="PF('addEmployee').hide();" />
 
 				<p:commandButton styleClass="btnCancelSave" icon="fa fa-save"
-					action="#{webHandler.addNewEmployee()}" update="emform :listOfEmp"
+					action="#{webHandler.addNewEmployee}" update="emform :listOfEmp"
 					process="@form" value="Save" />
 			</div>
 		</h:form>
@@ -189,7 +189,7 @@
 
 				<p:commandButton value="Update" icon="fa fa-edit"
 					styleClass="btnCancelSave"
-					action="#{webHandler.updateEmployeeFromPage()}"
+					action="#{webHandler.updateEmployeeFromPage}"
 					update=":updateform :listOfEmp" process="@form" />
 			</div>
 		</h:form>
