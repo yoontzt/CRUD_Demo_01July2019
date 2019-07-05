@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NamedQueries({
 	@NamedQuery(name="findByDepartmentId", query="SELECT d FROM DepartmentEntity d where d.id = :deptid"),
-	@NamedQuery(name="showDepartmentList",query="select d from DepartmentEntity d order by d.name ASC")
+	@NamedQuery(name="showDepartmentList",query="select d from DepartmentEntity d")
 })
 @Entity
 @Table(name="department")

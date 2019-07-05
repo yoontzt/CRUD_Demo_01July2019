@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
-	@NamedQuery(name="showEmployeeList",query="select e from EmployeeEntity e order by e.id ASC")
+	@NamedQuery(name="showEmployeeList",query="select e from EmployeeEntity e")
 })
 @Entity
 @Table(name="employee")

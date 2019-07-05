@@ -55,7 +55,7 @@ public class WebHandler implements Serializable {
 	}
 
 	public void addNewEmployee() {
-		employee.setDepartment(depService.toBom(departmentEntity));
+		employee.setDepartment(department);
 		//employee.setDepartment(depService.toEntity(department));
 		empService.addEmployee(employee);
 		employeeList = empService.toBoms(empService.showAll());
@@ -70,7 +70,7 @@ public class WebHandler implements Serializable {
 	}
 
 	public void updateEmployeeFromPage() {
-		employee.setDepartment(depService.toBom(departmentEntity));
+		employee.setDepartment(department);
 		//employee.setDepartment(depService.toEntity(department));
 		empService.updateEmployee(employee);
 		employeeList = empService.toBoms(empService.showAll());

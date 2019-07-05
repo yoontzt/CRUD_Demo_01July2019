@@ -17,7 +17,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import bom.Employee;
-import entites.EmployeeEntity;
 import services.EmployeeService;
 
 @Stateless
@@ -48,7 +47,6 @@ public class EmployeeResource {
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
 	public Response addEmployee(Employee emp) {
-
 		empService.addEmployee(emp);
 		return Response.status(Status.OK).build();
 	}
@@ -59,15 +57,6 @@ public class EmployeeResource {
 	public Response updateEmployee(Employee emp) {
 
 		empService.updateEmployee(emp);
-		return Response.status(Status.OK).build();
-	}
-
-	@DELETE
-	@Produces({ MediaType.APPLICATION_JSON })
-	@Consumes({ MediaType.APPLICATION_JSON })
-	public Response deleteEmployee(Employee emp) {
-		EmployeeEntity empEntity = empService.toEntity(emp);
-		empService.deleteEmployee(empEntity);
 		return Response.status(Status.OK).build();
 	}
 
