@@ -10,28 +10,29 @@ import bom.Employee;
 import entites.EmployeeEntity;
 
 @Stateless
-public class EmployeeService extends GenericService<EmployeeEntity,Employee> {
+public class EmployeeService extends GenericService<EmployeeEntity, Employee> {
 	@EJB
 	DepartmentService deptService;
-	
+
 	@EJB
 	EmployeeService empService;
-	
+
 	public EmployeeService() {
 		super();
 	}
-	
-	public List<EmployeeEntity> showAll(){
+
+	public List<Employee> showAll() {
 		TypedQuery<EmployeeEntity> q = em.createNamedQuery("showEmployeeList", EmployeeEntity.class);
-		return q.getResultList();  // I have to return business logic here means Bom(Business Object model)
-		
+		List<EmployeeEntity> employeeEntities = q.getResultList();
+		return empService.toBoms(employeeEntities);
 	}
+
 	public EmployeeEntity findById(int id) {
 		EmployeeEntity newemp = new EmployeeEntity();
 		newemp = em.find(EmployeeEntity.class, id);
 		return newemp;
-		
 	}
+
 	public void addEmployee(Employee e) {
 		EmployeeEntity newEntity = empService.toEntity(e);
 		newEntity.setName(e.getName());
@@ -42,53 +43,41 @@ public class EmployeeService extends GenericService<EmployeeEntity,Employee> {
 	}
 
 	public void updateEmployee(Employee e) {
-		
 		EmployeeEntity newEntity = findById(empService.toEntity(e).getId());
 		newEntity.setName(e.getName());
 		newEntity.setAge(e.getAge());
 		newEntity.setEmail(e.getEmail());
 		newEntity.setDepartment(deptService.findDepartmentById(e.getDepartment().getId()));
 		this.update(newEntity);
-		
 	}
-	
-	
-	  public void deleteEmployee(EmployeeEntity e) { 
-		  EmployeeEntity newEntity = findById(e.getId()); 
-		  this.remove(newEntity);
-	  
-	  }
-	   //It's Ok to have just one Delete api
 
-	public void deleteEmployeebyId(int id) {
-		EmployeeEntity newemp = findById(id);
-		this.remove(newemp);
-		
+	public void deleteEmployeeForREST(EmployeeEntity empEntity) {
+		this.remove(empEntity);
 	}
 	
+	public void deleteEmployeeForController(EmployeeEntity employeeEntity) {
+		EmployeeEntity empEntity = findById(employeeEntity.getId());
+		if (empEntity == null) {
+		System.out.println("Error");
+		}
+		this.remove(empEntity);
+	}
+
 	@Override
 	public EmployeeEntity toEntity(Employee bom) {
 		if (bom != null) {
-			EmployeeEntity empEntity = new EmployeeEntity(bom.getId(), bom.getName(),
-					bom.getAge(), bom.getEmail(),deptService.toEntity(bom.getDepartment()));
-			
-			return empEntity;
+			return EmployeeEntity.builder().id(bom.getId()).name(bom.getName()).email(bom.getEmail()).age(bom.getAge())
+					.department(deptService.toEntity(bom.getDepartment())).build();
 		}
-		
 		return null;
 	}
 
 	@Override
 	public Employee toBom(EmployeeEntity entity) {
 		if (entity != null) {
-			
-			Employee emp = new Employee(entity.getId(), entity.getName(),
-					 entity.getAge(), entity.getEmail(),deptService.toBom(entity.getDepartment()));
-			return emp;
+			return  new Employee(entity.getId(), entity.getName(), entity.getAge(), entity.getEmail(),
+					deptService.toBom(entity.getDepartment()));
 		}
 		return null;
 	}
-
-	
-	
 }

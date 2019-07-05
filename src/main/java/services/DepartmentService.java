@@ -14,22 +14,16 @@ import entites.DepartmentEntity;
 
 @Stateless
 public class DepartmentService extends GenericService<DepartmentEntity, Department> {
-	public DepartmentService() {
-		super();
-	}
 
 	public DepartmentEntity findDepartmentById(int deptId) {
-		List<DepartmentEntity> getOneDepartment = em
+		List<DepartmentEntity> department = em
 				.createNamedQuery("findByDepartmentId",  DepartmentEntity.class)
 				.setParameter("deptid", deptId).getResultList();
-
-		if (getOneDepartment.isEmpty())
+		if (department.isEmpty())
 			throw new NoResultException("No source found");
 		else
-			return getOneDepartment.get(0);
-
+			return department.get(0);
 	}
-
 	
 	public List<DepartmentEntity> showAll() {
 		TypedQuery<DepartmentEntity> q = em.createNamedQuery("showDepartmentList", DepartmentEntity.class);
@@ -37,24 +31,19 @@ public class DepartmentService extends GenericService<DepartmentEntity, Departme
 	}
 	
 	public DepartmentEntity toEntity(Department bom) {
-		
-		if (bom != null) {
-			DepartmentEntity depEntity = new DepartmentEntity(bom.getId(), bom.getName());
-			
-			return depEntity;
-		}
-		
+		if (bom != null) {			
+			return  new DepartmentEntity(bom.getId(), bom.getName());
+		}		
 		return null;
 	}
 
 	public Department toBom(DepartmentEntity entity) {
 		if (entity != null) {
-			
-			Department dep = new Department(entity.getId(), entity.getName());
-			return dep;
+			return  new Department(entity.getId(), entity.getName());
 		}
 		return null;
 	}
+	
 	public List<DepartmentEntity> toEntities(List<Department> boms) {
 		if (boms == null) {
 			return Collections.emptyList();

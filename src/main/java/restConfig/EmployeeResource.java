@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import bom.Employee;
+import entites.EmployeeEntity;
 import services.EmployeeService;
 
 @Stateless
@@ -24,14 +25,12 @@ import services.EmployeeService;
 public class EmployeeResource {
 
 	@EJB
-	EmployeeService empService;
-
+	EmployeeService employeeService;
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Employee> showAll() {
-		return empService.toBoms(empService.showAll());
-
+		return employeeService.showAll();
 	}
 
 	@GET
@@ -39,15 +38,14 @@ public class EmployeeResource {
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
 	public Employee read(@PathParam("EmployeeId") int id) {
-		return empService.toBom(empService.findById(id));
+		return employeeService.toBom(employeeService.findById(id));
 	}
 
-	// changes here
 	@POST
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
 	public Response addEmployee(Employee emp) {
-		empService.addEmployee(emp);
+		employeeService.addEmployee(emp);
 		return Response.status(Status.OK).build();
 	}
 
@@ -55,9 +53,8 @@ public class EmployeeResource {
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
 	public Response updateEmployee(Employee emp) {
-
-		empService.updateEmployee(emp);
-		return Response.status(Status.OK).build();
+		employeeService.updateEmployee(emp);
+		return Response.status(Status.OK).build();		
 	}
 
 	@DELETE
@@ -65,8 +62,11 @@ public class EmployeeResource {
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
 	public Response deleteEmployeebyId(@PathParam("EmployeeId") int id) {
-		empService.deleteEmployeebyId(id);
-		return Response.status(Status.OK).build();
+		EmployeeEntity employeeEntity = employeeService.findById(id);
+		if ( employeeEntity != null) {
+			employeeService.deleteEmployeeForREST(employeeEntity);
+			return Response.status(Status.OK).build();			
+		}
+		return Response.status(Status.NO_CONTENT).build();
 	}
-
 }
