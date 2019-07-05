@@ -23,60 +23,61 @@ import services.EmployeeService;
 @Stateless
 @Path("employee")
 public class EmployeeResource {
-	
+
 	@EJB
 	EmployeeService empService;
-	
+
+
 	@GET
-	@Produces({MediaType.APPLICATION_JSON})
-	public List<Employee> showAll(){
+	@Produces({ MediaType.APPLICATION_JSON })
+	public List<Employee> showAll() {
 		return empService.toBoms(empService.showAll());
+
 	}
-	
+
 	@GET
 	@Path("{EmployeeId}")
-	@Produces({MediaType.APPLICATION_JSON})
-	@Consumes({MediaType.APPLICATION_JSON})
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Consumes({ MediaType.APPLICATION_JSON })
 	public Employee read(@PathParam("EmployeeId") int id) {
 		return empService.toBom(empService.findById(id));
 	}
-	//changes here
+
+	// changes here
 	@POST
-	@Produces({MediaType.APPLICATION_JSON})
-	@Consumes({MediaType.APPLICATION_JSON})
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Consumes({ MediaType.APPLICATION_JSON })
 	public Response addEmployee(Employee emp) {
-	
+
 		empService.addEmployee(emp);
 		return Response.status(Status.OK).build();
 	}
-	
+
 	@PUT
-	@Produces({MediaType.APPLICATION_JSON})
-	@Consumes({MediaType.APPLICATION_JSON})
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Consumes({ MediaType.APPLICATION_JSON })
 	public Response updateEmployee(Employee emp) {
 
 		empService.updateEmployee(emp);
 		return Response.status(Status.OK).build();
 	}
-	
+
 	@DELETE
-	@Produces({MediaType.APPLICATION_JSON})
-	@Consumes({MediaType.APPLICATION_JSON})
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Consumes({ MediaType.APPLICATION_JSON })
 	public Response deleteEmployee(Employee emp) {
 		EmployeeEntity empEntity = empService.toEntity(emp);
 		empService.deleteEmployee(empEntity);
 		return Response.status(Status.OK).build();
 	}
-	
+
 	@DELETE
 	@Path("{EmployeeId}")
-	@Produces({MediaType.APPLICATION_JSON})
-	@Consumes({MediaType.APPLICATION_JSON})
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Consumes({ MediaType.APPLICATION_JSON })
 	public Response deleteEmployeebyId(@PathParam("EmployeeId") int id) {
 		empService.deleteEmployeebyId(id);
 		return Response.status(Status.OK).build();
 	}
-	
-	
 
 }

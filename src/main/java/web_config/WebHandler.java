@@ -14,6 +14,7 @@ import org.primefaces.PrimeFaces;
 
 import bom.Department;
 import bom.Employee;
+import entites.DepartmentEntity;
 import lombok.Getter;
 import lombok.Setter;
 import services.DepartmentService;
@@ -30,6 +31,7 @@ public class WebHandler implements Serializable {
 	private static final long serialVersionUID = 8495411679904641370L;
 	private @Getter @Setter Department department = new Department();
 	private @Getter @Setter Employee employee = new Employee();
+	private @Getter @Setter DepartmentEntity departmentEntity=new DepartmentEntity();
 	private @Getter @Setter int id;
 
 	@Inject
@@ -53,7 +55,8 @@ public class WebHandler implements Serializable {
 	}
 
 	public void addNewEmployee() {
-		employee.setDepartment(depService.toEntity(department));
+		employee.setDepartment(depService.toBom(departmentEntity));
+		//employee.setDepartment(depService.toEntity(department));
 		empService.addEmployee(employee);
 		employeeList = empService.toBoms(empService.showAll());
 		clear();
@@ -67,7 +70,8 @@ public class WebHandler implements Serializable {
 	}
 
 	public void updateEmployeeFromPage() {
-		employee.setDepartment(depService.toEntity(department));
+		employee.setDepartment(depService.toBom(departmentEntity));
+		//employee.setDepartment(depService.toEntity(department));
 		empService.updateEmployee(employee);
 		employeeList = empService.toBoms(empService.showAll());
 		PrimeFaces.current().executeScript("PF('UpdateEmployee').hide()");

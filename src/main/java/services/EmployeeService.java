@@ -6,6 +6,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
+import bom.Department;
 import bom.Employee;
 import entites.EmployeeEntity;
 
@@ -23,17 +24,15 @@ public class EmployeeService extends GenericService<EmployeeEntity,Employee> {
 	
 	public List<EmployeeEntity> showAll(){
 		TypedQuery<EmployeeEntity> q = em.createNamedQuery("showEmployeeList", EmployeeEntity.class);
-		return q.getResultList();
+		return q.getResultList();  // I have to return business logic here means Bom(Business Object model)
+		
 	}
-	
 	public EmployeeEntity findById(int id) {
 		EmployeeEntity newemp = new EmployeeEntity();
 		newemp = em.find(EmployeeEntity.class, id);
 		return newemp;
 		
 	}
-	
-	
 	public void addEmployee(Employee e) {
 		EmployeeEntity newEntity = empService.toEntity(e);
 		newEntity.setName(e.getName());
@@ -54,11 +53,13 @@ public class EmployeeService extends GenericService<EmployeeEntity,Employee> {
 		
 	}
 	
-	public void deleteEmployee(EmployeeEntity e) {
-		EmployeeEntity newEntity = findById(e.getId());
-		this.remove(newEntity);
-		
-	}
+	
+	  public void deleteEmployee(EmployeeEntity e) { 
+		  EmployeeEntity newEntity = findById(e.getId()); 
+		  this.remove(newEntity);
+	  
+	  }
+	   //It's Ok to have just one Delete api
 
 	public void deleteEmployeebyId(int id) {
 		EmployeeEntity newemp = findById(id);
@@ -70,7 +71,7 @@ public class EmployeeService extends GenericService<EmployeeEntity,Employee> {
 	public EmployeeEntity toEntity(Employee bom) {
 		if (bom != null) {
 			EmployeeEntity empEntity = new EmployeeEntity(bom.getId(), bom.getName(),
-					bom.getAge(), bom.getEmail(),bom.getDepartment());
+					bom.getAge(), bom.getEmail(),deptService.toEntity(bom.getDepartment()));
 			
 			return empEntity;
 		}
@@ -83,7 +84,7 @@ public class EmployeeService extends GenericService<EmployeeEntity,Employee> {
 		if (entity != null) {
 			
 			Employee emp = new Employee(entity.getId(), entity.getName(),
-					 entity.getAge(), entity.getEmail(),entity.getDepartment());
+					 entity.getAge(), entity.getEmail(),deptService.toBom(entity.getDepartment()));
 			return emp;
 		}
 		return null;

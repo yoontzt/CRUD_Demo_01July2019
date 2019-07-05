@@ -15,5 +15,5 @@ public class Employee {
 	private String name;
 	private Integer age;
 	private String email;
-	private DepartmentEntity department;
+	private Department department;
 }
