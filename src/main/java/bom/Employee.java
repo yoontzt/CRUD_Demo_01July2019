@@ -1,6 +1,5 @@
 package bom;
 
-import entites.DepartmentEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

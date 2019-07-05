@@ -6,7 +6,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
-import bom.Department;
 import bom.Employee;
 import entites.EmployeeEntity;
 
