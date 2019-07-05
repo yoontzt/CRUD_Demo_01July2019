@@ -21,14 +21,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="department")
 public class DepartmentEntity {
-
 	
 	@Id
 	private int id;
 	
 	@Column(name="name")
 	private String name;
-	
-	
-	
 }

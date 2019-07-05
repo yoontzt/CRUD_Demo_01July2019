@@ -56,5 +56,4 @@ public abstract class GenericService<E,B> {
 		entities.stream().map(each -> toBom(each)).filter(Objects::nonNull).forEach(bom -> boms.add(bom));
 		return boms;
 	}
-
 }
