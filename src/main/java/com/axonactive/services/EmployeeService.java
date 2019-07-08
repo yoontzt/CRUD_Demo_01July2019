@@ -1,4 +1,4 @@
-package services;
+package com.axonactive.services;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
-import bom.Employee;
-import entites.EmployeeEntity;
+import com.axonactive.bom.Employee;
+import com.axonactive.entites.EmployeeEntity;
 
 @Stateless
 public class EmployeeService extends GenericService<EmployeeEntity, Employee> {
@@ -28,8 +28,7 @@ public class EmployeeService extends GenericService<EmployeeEntity, Employee> {
 	}
 
 	public EmployeeEntity findById(int id) {
-		EmployeeEntity newemp = new EmployeeEntity();
-		newemp = em.find(EmployeeEntity.class, id);
+		EmployeeEntity newemp = em.find(EmployeeEntity.class, id);
 		return newemp;
 	}
 

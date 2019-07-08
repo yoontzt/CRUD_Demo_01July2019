@@ -1,4 +1,4 @@
-package entites;
+package com.axonactive.entites;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

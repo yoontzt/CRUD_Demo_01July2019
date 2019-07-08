@@ -1,4 +1,4 @@
-package restConfig;
+package com.axonactive.restConfig;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import bom.Employee;
-import entites.EmployeeEntity;
-import services.EmployeeService;
+import com.axonactive.bom.Employee;
+import com.axonactive.entites.EmployeeEntity;
+import com.axonactive.services.EmployeeService;
 
 @Stateless
 @Path("employee")

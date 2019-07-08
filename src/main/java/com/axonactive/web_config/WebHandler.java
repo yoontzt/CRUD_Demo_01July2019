@@ -1,4 +1,4 @@
-package web_config;
+package com.axonactive.web_config;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,20 +12,19 @@ import javax.inject.Inject;
 
 import org.primefaces.PrimeFaces;
 
-import bom.Department;
-import bom.Employee;
-import entites.DepartmentEntity;
+import com.axonactive.bom.Department;
+import com.axonactive.bom.Employee;
+import com.axonactive.entites.DepartmentEntity;
+import com.axonactive.services.DepartmentService;
+import com.axonactive.services.EmployeeService;
+
 import lombok.Getter;
 import lombok.Setter;
-import services.DepartmentService;
-import services.EmployeeService;
 
 @SuppressWarnings("deprecation")
 @ManagedBean(name = "webController")
 @ViewScoped
-public class WebController implements Serializable {
-
-	private static final long serialVersionUID = 8495411679904641370L;
+public class WebHandler {
 	private @Getter @Setter Department department = new Department();
 	private @Getter @Setter Employee employee = new Employee();
 	private @Getter @Setter DepartmentEntity departmentEntity=new DepartmentEntity();
@@ -44,7 +43,7 @@ public class WebController implements Serializable {
 	@PostConstruct
 	public void init() {
 		employeeList = empService.showAll();
-		departmentList = depService.toBoms(depService.showAll());
+		departmentList = depService.showAll();
 		if (departmentList.size() > 0) {
 			department = departmentList.get(0);
 		}

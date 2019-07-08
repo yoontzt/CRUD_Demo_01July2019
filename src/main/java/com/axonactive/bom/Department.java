@@ -1,4 +1,4 @@
-package bom;
+package com.axonactive.bom;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
