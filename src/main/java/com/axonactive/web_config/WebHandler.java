@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 
 import org.primefaces.PrimeFaces;
 
@@ -36,17 +37,18 @@ public class WebHandler {
 	@Inject
 	private DepartmentService depService;
 
-	private @Getter @Setter List<Employee> employeeList = new ArrayList<>();
+	private transient @Getter @Setter List<Employee> employeeList = new ArrayList<>();
 
-	private @Getter @Setter List<Department> departmentList = new ArrayList<>();
+	private transient  @Getter @Setter List<Department> departmentList = new ArrayList<>();
 
 	@PostConstruct
 	public void init() {
 		employeeList = empService.showAll();
-		departmentList = depService.showAll();
-		if (departmentList.size() > 0) {
+		departmentList = depService.toBoms(depService.showAll());
+		if (departmentList.isEmpty())
+			throw new NoResultException("No source found");
+		else
 			department = departmentList.get(0);
-		}
 	}
 
 	public void addNewEmployee() {

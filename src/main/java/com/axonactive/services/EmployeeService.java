@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import com.axonactive.bom.Employee;
@@ -57,7 +58,7 @@ public class EmployeeService extends GenericService<EmployeeEntity, Employee> {
 	public void deleteEmployeeForController(EmployeeEntity employeeEntity) {
 		EmployeeEntity empEntity = findById(employeeEntity.getId());
 		if (empEntity == null) {
-		System.out.println("Error");
+			throw new NoResultException("No source found");
 		}
 		this.remove(empEntity);
 	}

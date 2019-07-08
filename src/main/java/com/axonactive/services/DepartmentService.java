@@ -48,7 +48,6 @@ public class DepartmentService extends GenericService<DepartmentEntity, Departme
 		}
 		return null;
 	}
-
 	@Override
 	public List<DepartmentEntity> toEntities(List<Department> boms) {
 		if (boms == null) {
@@ -58,7 +57,6 @@ public class DepartmentService extends GenericService<DepartmentEntity, Departme
 		boms.stream().map(each -> toEntity(each)).filter(Objects::nonNull).forEach(entity -> entities.add(entity));
 		return entities;
 	}
-
 	@Override
 	public List<Department> toBoms(List<DepartmentEntity> entities) {
 		if (entities == null) {
