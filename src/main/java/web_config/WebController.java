@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 
 import org.primefaces.PrimeFaces;
 
@@ -26,10 +27,10 @@ import services.EmployeeService;
 public class WebController implements Serializable {
 
 	private static final long serialVersionUID = 8495411679904641370L;
-	private @Getter @Setter Department department = new Department();
-	private @Getter @Setter Employee employee = new Employee();
-	private @Getter @Setter DepartmentEntity departmentEntity=new DepartmentEntity();
-	private @Getter @Setter int id;
+	private transient  @Getter @Setter Department department = new Department();
+	private transient  @Getter @Setter Employee employee = new Employee();
+	private transient  @Getter @Setter DepartmentEntity departmentEntity=new DepartmentEntity();
+	private transient  @Getter @Setter int id;
 
 	@Inject
 	private EmployeeService empService;
@@ -37,17 +38,18 @@ public class WebController implements Serializable {
 	@Inject
 	private DepartmentService depService;
 
-	private @Getter @Setter List<Employee> employeeList = new ArrayList<>();
+	private transient @Getter @Setter List<Employee> employeeList = new ArrayList<>();
 
-	private @Getter @Setter List<Department> departmentList = new ArrayList<>();
+	private transient  @Getter @Setter List<Department> departmentList = new ArrayList<>();
 
 	@PostConstruct
 	public void init() {
 		employeeList = empService.showAll();
 		departmentList = depService.toBoms(depService.showAll());
-		if (departmentList.size() > 0) {
+		if (departmentList.isEmpty())
+			throw new NoResultException("No source found");
+		else
 			department = departmentList.get(0);
-		}
 	}
 
 	public void addNewEmployee() {

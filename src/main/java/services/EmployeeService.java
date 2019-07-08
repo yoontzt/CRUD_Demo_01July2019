@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import bom.Employee;
@@ -28,9 +29,7 @@ public class EmployeeService extends GenericService<EmployeeEntity, Employee> {
 	}
 
 	public EmployeeEntity findById(int id) {
-		EmployeeEntity newemp = new EmployeeEntity();
-		newemp = em.find(EmployeeEntity.class, id);
-		return newemp;
+		return  em.find(EmployeeEntity.class, id);
 	}
 
 	public void addEmployee(Employee e) {
@@ -58,7 +57,7 @@ public class EmployeeService extends GenericService<EmployeeEntity, Employee> {
 	public void deleteEmployeeForController(EmployeeEntity employeeEntity) {
 		EmployeeEntity empEntity = findById(employeeEntity.getId());
 		if (empEntity == null) {
-		System.out.println("Error");
+			throw new NoResultException("No source found");
 		}
 		this.remove(empEntity);
 	}
