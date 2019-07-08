@@ -1,9 +1,6 @@
 package test;
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
-import java.util.List;
-
 import javax.faces.event.ValueChangeEvent;
 
 import org.junit.Test;
@@ -34,61 +31,7 @@ public class WebControllerTest {
 	EmployeeService empService;
 
 	@Mock
-	ValueChangeEvent valueChangeEvent;
-
-	@Test
-	public void testInit() {
-		Department department = createDepartment();
-		List<Employee> employeeEntities = Arrays.asList(createEmployee());
-		List<DepartmentEntity> departmentEntities = Arrays.asList(createDepartmentEntity());
-
-		Mockito.when(empService.showAll()).thenReturn(employeeEntities);
-		Mockito.when(employeeEntities).thenReturn(Arrays.asList(createEmployee()));
-
-		Mockito.when(depService.showAll()).thenReturn(departmentEntities);
-		Mockito.when(depService.toBoms(departmentEntities)).thenReturn(Arrays.asList(createDepartment()));
-
-		webController.init();
-
-		assertEquals(department, webController.getDepartment());
-
-	}
-
-	@Test
-	public void testInit_() {
-		List<Employee> employeeEntities = Arrays.asList(createEmployee());
-
-		Mockito.when(empService.showAll()).thenReturn(employeeEntities);
-		Mockito.when(employeeEntities).thenReturn(Arrays.asList(createEmployee()));
-		webController.init();
-		assertEquals(new Department(), webController.getDepartment());
-
-	}
-
-	@Test
-	public void testAddNewEmployee_ShouldReturnPage_WhenWeAddSuccessful() {
-
-		Department department = createDepartment();
-		Employee employee = createEmployee();
-		webController.setDepartment(department);
-		webController.setEmployee(employee);
-
-		Mockito.when(depService.toEntity(department)).thenReturn(createDepartmentEntity());
-		Mockito.verify(empService).addEmployee(employee);	
-	}
-
-	@Test
-	public void testUpdateEmployee_ShouldReturnPage_WhenUpdatedIsSuccessful() {
-
-		Department department = createDepartment();
-		Employee employee = createEmployee();
-		webController.setDepartment(department);
-		webController.setEmployee(employee);
-
-		Mockito.when(depService.toEntity(department)).thenReturn(createDepartmentEntity());
-		Mockito.verify(empService).updateEmployee(employee);
-
-	}
+	ValueChangeEvent valueChangeEvent;	
 
 	@Test
 	public void testDeleteEmployee_ShouldReturnPage_WhenDeletedIsSuccessful() {
