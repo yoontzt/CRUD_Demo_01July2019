@@ -17,20 +17,27 @@ public class EmployeeService extends GenericService<EmployeeEntity, Employee> {
 
 	@EJB
 	EmployeeService empService;
-
-	public EmployeeService() {
-		super();
-	}
-
-	public List<Employee> showAll() {
+	
+	/**
+	 * Find all employee from database
+	 * 
+	 * @return List of employee
+	 */
+	public List<Employee> getAll() {
 		TypedQuery<EmployeeEntity> q = em.createNamedQuery("showEmployeeList", EmployeeEntity.class);
 		List<EmployeeEntity> employeeEntities = q.getResultList();
 		return empService.toBoms(employeeEntities);
 	}
 
+	/**
+	 * Find employee by Id from database
+	 * 
+	 * @param id Id of empl
+	 * @return Employee Information
+	 */
+	
 	public EmployeeEntity findById(int id) {
-		EmployeeEntity newemp = em.find(EmployeeEntity.class, id);
-		return newemp;
+		return em.find(EmployeeEntity.class, id);
 	}
 
 	public void addEmployee(Employee e) {

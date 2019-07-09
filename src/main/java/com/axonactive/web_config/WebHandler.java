@@ -1,6 +1,5 @@
 package com.axonactive.web_config;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +22,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @SuppressWarnings("deprecation")
-@ManagedBean(name = "webController")
+@ManagedBean(name = "webHandler")
 @ViewScoped
 public class WebHandler {
 	private @Getter @Setter Department department = new Department();
@@ -37,14 +36,19 @@ public class WebHandler {
 	@Inject
 	private DepartmentService depService;
 
-	private transient @Getter @Setter List<Employee> employeeList = new ArrayList<>();
+	private @Getter @Setter List<Employee> employeeList = new ArrayList<>();
 
-	private transient  @Getter @Setter List<Department> departmentList = new ArrayList<>();
+	private @Getter @Setter List<Department> departmentList = new ArrayList<>();
 
 	@PostConstruct
 	public void init() {
+<<<<<<< HEAD
 		employeeList = empService.showAll();
 		departmentList = depService.showAll();
+=======
+		employeeList = empService.getAll();
+		departmentList = depService.getAll();
+>>>>>>> 233c9feb1d3d904ba0962f13fa3f98c482ef72c7
 		if (departmentList.isEmpty())
 			throw new NoResultException("No source found");
 		else
@@ -54,7 +58,7 @@ public class WebHandler {
 	public void addNewEmployee() {
 		employee.setDepartment(department);
 		empService.addEmployee(employee);
-		employeeList = empService.showAll();
+		employeeList = empService.getAll();
 		clear();
 		PrimeFaces.current().executeScript("PF('addEmployee').hide()");
 	}
@@ -62,13 +66,13 @@ public class WebHandler {
 	public void updateEmployeeFromPage() {
 		employee.setDepartment(department);
 		empService.updateEmployee(employee);
-		employeeList =empService.showAll();
+		employeeList =empService.getAll();
 		PrimeFaces.current().executeScript("PF('UpdateEmployee').hide()");
 	}
 
 	public void deleteEmployeeFromPage(Employee employeeBOM) {
 		empService.deleteEmployeeForController(empService.toEntity(employeeBOM));
-		employeeList =empService.showAll();
+		employeeList =empService.getAll();
 	}
 
 	public void viewEmployee(Employee emp) {

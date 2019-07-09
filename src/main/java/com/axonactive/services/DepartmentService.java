@@ -12,13 +12,18 @@ import javax.persistence.TypedQuery;
 
 import com.axonactive.bom.Department;
 import com.axonactive.entites.DepartmentEntity;
-import com.axonactive.entites.EmployeeEntity;
 
 @Stateless
 public class DepartmentService extends GenericService<DepartmentEntity, Department> {
 
 	@EJB
 	DepartmentService deptService;
+	
+	public List<Department> getAll() {
+		TypedQuery<DepartmentEntity> q = em.createNamedQuery("showDepartmentList", DepartmentEntity.class);
+		List<DepartmentEntity> departmentEntities = q.getResultList();
+		return deptService.toBoms(departmentEntities);
+	}
 
 	public DepartmentEntity findDepartmentById(int deptId) {
 		List<DepartmentEntity> department = em.createNamedQuery("findByDepartmentId", DepartmentEntity.class)
@@ -29,11 +34,7 @@ public class DepartmentService extends GenericService<DepartmentEntity, Departme
 			return department.get(0);
 	}
 
-	public List<Department> showAll() {
-		TypedQuery<DepartmentEntity> q = em.createNamedQuery("showDepartmentList", DepartmentEntity.class);
-		List<DepartmentEntity> departmentEntities = q.getResultList();
-		return deptService.toBoms(departmentEntities);
-	}
+	
 
 	public DepartmentEntity toEntity(Department bom) {
 		if (bom != null) {
