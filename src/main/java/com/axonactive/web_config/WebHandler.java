@@ -49,7 +49,7 @@ public class WebHandler {
 		else
 			department = departmentList.get(0);
 	}
-
+	
 	public void addNewEmployee() {
 		employee.setDepartment(department);
 		empService.addEmployee(employee);
