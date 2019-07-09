@@ -8,9 +8,14 @@ h2 {
 	font-size: 2em;
 	margin-top: 40px;
 	margin-left: 40px;
-	align: center;
 	text-transform: capitalize;
 	text-shadow: gray;
+}
+
+.mainPageGrid tr, .mainPageGrid.ui-panelgrid .ui-panelgrid-cell {
+	border: none;
+	box-shadow: none;
+	
 }
 
 /* This is for dataTable */
@@ -40,7 +45,7 @@ h2 {
 	font-family: Arial, sans-serif;
 	font-size: 2em;
 	background-position: center;
-	align: center;
+/* 	align: center; */
 	text-shadow: gray;
 	height: 60px;
 }
@@ -103,12 +108,12 @@ h2 {
 	border: white;
 	margin-left: 0px;
 	font-size: 15px;
+	background: none;
 	background-position: right;
 	box-sizing: border-box;
 	width: 160px;
 	height: 30px;
 	text-align: left;
-	background: none;
 	background-color: #ffffff;
 	float: right;
 }
@@ -119,11 +124,7 @@ h2 {
 	float: center;
 }
 
-.mainPageGrid tr, .mainPageGrid.ui-panelgrid .ui-panelgrid-cell {
-	border: none;
-	box-shadow: none;
-	
-}
+
 
 
 /*  This is to clear input text box showdow in dialog*/

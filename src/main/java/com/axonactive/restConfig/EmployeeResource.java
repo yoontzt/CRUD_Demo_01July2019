@@ -30,7 +30,7 @@ public class EmployeeResource {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Employee> showAll() {
-		return employeeService.showAll();
+		return employeeService.getAll();
 	}
 
 	@GET
