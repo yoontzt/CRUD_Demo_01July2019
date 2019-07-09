@@ -1,4 +1,4 @@
-package com.axonactive.restConfig;
+package com.axonactive.restconfiguration;
 
 import java.util.List;
 

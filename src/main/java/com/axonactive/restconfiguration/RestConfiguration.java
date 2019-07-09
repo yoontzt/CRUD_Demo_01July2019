@@ -1,4 +1,4 @@
-package com.axonactive.restConfig;
+package com.axonactive.restconfiguration;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
