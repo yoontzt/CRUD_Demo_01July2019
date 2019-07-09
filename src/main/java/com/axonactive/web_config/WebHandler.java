@@ -44,13 +44,13 @@ public class WebHandler {
 	@PostConstruct
 	public void init() {
 		employeeList = empService.showAll();
-		departmentList = depService.toBoms(depService.showAll());
+		departmentList = depService.showAll();
 		if (departmentList.isEmpty())
 			throw new NoResultException("No source found");
 		else
 			department = departmentList.get(0);
 	}
-
+	
 	public void addNewEmployee() {
 		employee.setDepartment(department);
 		empService.addEmployee(employee);

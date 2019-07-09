@@ -1,4 +1,4 @@
-package demo;
+package com.axonactive.webHandlerTest;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,13 +6,18 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.faces.event.ValueChangeEvent;
+import javax.persistence.NoResultException;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.primefaces.PrimeFaces;
 
 import com.axonactive.bom.Department;
 import com.axonactive.bom.Employee;
@@ -21,7 +26,9 @@ import com.axonactive.entites.EmployeeEntity;
 import com.axonactive.services.DepartmentService;
 import com.axonactive.services.EmployeeService;
 import com.axonactive.web_config.WebHandler;
+
 @RunWith(PowerMockRunner.class)
+@PrepareForTest({ PrimeFaces.class })
 public class WebHandlerTest {
 
 	@InjectMocks
@@ -36,115 +43,102 @@ public class WebHandlerTest {
 	@Mock
 	ValueChangeEvent valueChangeEvent;
 
-	
-@Test
-public void testInit() {
-	Department department=createDepartment();
-	List<Employee> employees=Arrays.asList(createEmployee());
-	List<Department> departments = Arrays.asList(createDepartment());
-	
-	Mockito.when(empService.showAll()).thenReturn(employees);
-	
-	Mockito.when(depService.showAll()).thenReturn(departments);
-	
-	webHandler.init();
-	assertEquals(department,webHandler.getDepartment());
-}
-	
-/*}
+	@Mock
+	PrimeFaces primeFaces;
+
+	@Before
+	public void init() {
+		PowerMockito.mockStatic(PrimeFaces.class);
+		Mockito.when(PrimeFaces.current()).thenReturn(primeFaces);
+	}
+
 	@Test
-	public void testInit_getListFrom() {
+	public void testInit() {
 		Department department = createDepartment();
-		List<EmployeeEntity> employeeEntities = Arrays.asList(createEmployee());
-		List<DepartmentEntity> departmentEntities = Arrays.asList(createDepartmentEntity());
+		List<Employee> employees = Arrays.asList(createEmployee());
+		List<Department> departments = Arrays.asList(createDepartment());
 
-		Mockito.when(empService.showAll()).thenReturn(employeeEntities);
-		Mockito.when(empService.toBoms(employeeEntities)).thenReturn(Arrays.asList(createEmployee()));
+		Mockito.when(empService.showAll()).thenReturn(employees);
 
-		Mockito.when(depService.showAll()).thenReturn(departmentEntities);
-		Mockito.when(depService.toBoms(departmentEntities)).thenReturn(Arrays.asList(createDepartment()));
+		Mockito.when(depService.showAll()).thenReturn(departments);
 
 		webHandler.init();
-
 		assertEquals(department, webHandler.getDepartment());
+	}
 
-	}*/
-
-	@Test
-	public void testInit_() {
-		List<EmployeeEntity> employeeEntities = Arrays.asList(createEmployeeEntity());
-
-		Mockito.when(empService.showAll()).thenReturn(employeeEntities);
-		Mockito.when(empService.toBoms(employeeEntities)).thenReturn(Arrays.asList(createEmployee()));
-
+	 @Test(expected = Exception.class)
+	public void testInitException() {
+		List<Employee> employees=null;
+		List<Department> departments=null;
+		Mockito.when(depService.showAll()).thenReturn(departments);
+		Mockito.when(empService.showAll()).thenReturn(employees);
+		Mockito.when(employees.isEmpty()).thenThrow(new NoResultException());
 		webHandler.init();
-
-		assertEquals(new Department(), webHandler.getDepartment());
-
 	}
-
+	
 	@Test
-	public void testAddNewEmployee_ShouldReturnPage_WhenWeAddSuccessful() {
-
+	public void testAddNewEmployee_ShouldHideDialog_WhenAddNewEmployee() {
 		Department department = createDepartment();
 		Employee employee = createEmployee();
 		webHandler.setDepartment(department);
 		webHandler.setEmployee(employee);
 
-		Mockito.when(depService.toEntity(department)).thenReturn(createDepartmentEntity());
-
-		String actual = webHandler.addNewEmployee();
-
+		Mockito.when(empService.showAll()).thenReturn(Arrays.asList(createEmployee()));
+		webHandler.addNewEmployee();
 		Mockito.verify(empService).addEmployee(employee);
-		assertEquals("index.xhtml?faces-redirect=true&includeViewParams=true", actual);
+		Mockito.verify(primeFaces).executeScript("PF('addEmployee').hide()");
 
 	}
 
 	@Test
-	public void testUpdateEmployee_ShouldReturnPage_WhenUpdatedIsSuccessful() {
-
+	public void testUpdateEmployeeFromPage_ShouldHideDialog_WhenUpdatedIsSuccessful() {
+		// Init Variables
 		Department department = createDepartment();
 		Employee employee = createEmployee();
 		webHandler.setDepartment(department);
 		webHandler.setEmployee(employee);
 
-		Mockito.when(depService.toEntity(department)).thenReturn(createDepartmentEntity());
+		// Mock when
+		Mockito.when(empService.showAll()).thenReturn(Arrays.asList(createEmployee()));
 
-		String actual = webHandler.updateEmployee();
-
+		// Call function
+		webHandler.updateEmployeeFromPage();
+		// verify
 		Mockito.verify(empService).updateEmployee(employee);
-		assertEquals("index.xhtml?faces-redirect=true&includeViewParams=true", actual);
-
+		Mockito.verify(primeFaces).executeScript("PF('UpdateEmployee').hide()");
 	}
 
 	@Test
-	public void testDeleteEmployee_ShouldReturnPage_WhenDeletedIsSuccessful() {
+	public void testDeleteEmployeeFromPage_ShouldShowList_WhenDeletedIsSuccessful() {
+		// Init Variables
 		Employee employee = createEmployee();
 		webHandler.setEmployee(employee);
-		String actual = webHandler.deleteEmployee(employee);
 
-		assertEquals("index.xhtml?faces-redirect=true&includeViewParams=true", actual);
+		// Mock when
+		Mockito.when(empService.toEntity(employee)).thenReturn(createEmployeeEntity());
+		// Call function
+		webHandler.deleteEmployeeFromPage(employee);
 
+		// verify
+		Mockito.verify(empService).showAll();
 	}
 
 	@Test
-	public void testViewEmployee_ShouldReturnUpdatePage_WhenViewEmployeeisSuccessful() {
-		Department department = createDepartment();
+	public void testViewEmployee_ShouldShowDialog_WhenViewEmployeeisSuccessful() {
+		// Init Variables
 		Employee employee = createEmployee();
-		webHandler.setDepartment(department);
-		webHandler.setEmployee(employee);
 
-		Mockito.when(depService.toEntity(department)).thenReturn(createDepartmentEntity());
+		// Call function
+		webHandler.viewEmployee(employee);
 
-		String actual = webHandler.viewEmployee(employee);
-		int id = employee.getDepartment().getId();
-		assertEquals("update.xhtml?faces-redirect=true&id=" + id, actual);
+		// verify
+		Mockito.verify(primeFaces).executeScript("PF('UpdateEmployee').show()");
 
 	}
 
 	@Test
 	public void testChangeDepartment() {
-		
+
 		// Init Variables
 		Department expected = createDepartment();
 		DepartmentEntity departmentEntity = createDepartmentEntity();
@@ -154,14 +148,12 @@ public void testInit() {
 		Mockito.when(depService.findDepartmentById(1)).thenReturn(departmentEntity);
 		Mockito.when(depService.toBom(departmentEntity)).thenReturn(createDepartment());
 
-
 		// Call Function
 		webHandler.changeDepartment(valueChangeEvent);
 		// AssertEquals
 		Department department = webHandler.getDepartment();
 		assertEquals(expected, department);
 
-		// Verify
 	}
 
 	private Employee createEmployee() {
@@ -173,7 +165,6 @@ public void testInit() {
 
 		return new Department(1, "ICT");
 	}
-
 
 	private DepartmentEntity createDepartmentEntity() {
 		return new DepartmentEntity(1, "Yoon");
