@@ -12,7 +12,6 @@ import javax.persistence.TypedQuery;
 
 import com.axonactive.bom.Department;
 import com.axonactive.entites.DepartmentEntity;
-import com.axonactive.entites.EmployeeEntity;
 
 @Stateless
 public class DepartmentService extends GenericService<DepartmentEntity, Department> {

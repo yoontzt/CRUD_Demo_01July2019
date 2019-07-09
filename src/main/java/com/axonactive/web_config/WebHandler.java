@@ -1,6 +1,5 @@
 package com.axonactive.web_config;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +22,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @SuppressWarnings("deprecation")
-@ManagedBean(name = "webController")
+@ManagedBean(name = "WebHandler")
 @ViewScoped
 public class WebHandler {
 	private @Getter @Setter Department department = new Department();
@@ -37,14 +36,14 @@ public class WebHandler {
 	@Inject
 	private DepartmentService depService;
 
-	private transient @Getter @Setter List<Employee> employeeList = new ArrayList<>();
+	private @Getter @Setter List<Employee> employeeList = new ArrayList<>();
 
-	private transient  @Getter @Setter List<Department> departmentList = new ArrayList<>();
+	private @Getter @Setter List<Department> departmentList = new ArrayList<>();
 
 	@PostConstruct
 	public void init() {
 		employeeList = empService.showAll();
-		departmentList = depService.toBoms(depService.showAll());
+		departmentList = depService.showAll();
 		if (departmentList.isEmpty())
 			throw new NoResultException("No source found");
 		else
