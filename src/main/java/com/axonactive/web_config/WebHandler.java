@@ -22,7 +22,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @SuppressWarnings("deprecation")
-@ManagedBean(name = "WebHandler")
+@ManagedBean(name = "webHandler")
 @ViewScoped
 public class WebHandler {
 	private @Getter @Setter Department department = new Department();
