@@ -29,8 +29,7 @@ public class EmployeeService extends GenericService<EmployeeEntity, Employee> {
 	}
 
 	public EmployeeEntity findById(int id) {
-		EmployeeEntity newemp = em.find(EmployeeEntity.class, id);
-		return newemp;
+		return em.find(EmployeeEntity.class, id);
 	}
 
 	public void addEmployee(Employee e) {

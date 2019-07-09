@@ -1,4 +1,4 @@
-package demo;
+package test;
 import static org.junit.Assert.assertEquals;
 
 import javax.faces.event.ValueChangeEvent;
@@ -78,7 +78,6 @@ public class WebHandlerTest {
 	}
 
 	private Department createDepartment() {
-
 		return new Department(1, "ICT");
 	}
 
