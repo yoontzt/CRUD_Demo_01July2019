@@ -153,7 +153,7 @@ public class WebHandlerTest {
 		// Mock
 		Mockito.when(valueChangeEvent.getNewValue()).thenReturn(1);
 		Mockito.when(depService.findDepartmentById(1)).thenReturn(departmentEntity);
-		Mockito.when(departmentConverter.toBom(departmentEntity)).thenReturn(createDepartment());
+		Mockito.when(departmentConverter.toDTO(departmentEntity)).thenReturn(createDepartment());
 
 		// Call Function
 		webHandler.changeDepartment(valueChangeEvent);

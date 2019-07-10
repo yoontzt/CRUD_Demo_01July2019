@@ -12,29 +12,29 @@ public class EmployeeConverter {
 
 	DepartmentConverter departmentConverter = new DepartmentConverter();
 	
-	public EmployeeEntity toEntity(EmployeeDTO bom) {
-		if (bom != null) {
-			return EmployeeEntity.builder().id(bom.getId()).name(bom.getName()).email(bom.getEmail()).age(bom.getAge())
-					.department(departmentConverter.toEntity(bom.getDepartment())).build();
+	public EmployeeEntity toEntity(EmployeeDTO employeeDTO) {
+		if (employeeDTO != null) {
+			return EmployeeEntity.builder().id(employeeDTO.getId()).name(employeeDTO.getName()).email(employeeDTO.getEmail()).age(employeeDTO.getAge())
+					.department(departmentConverter.toEntity(employeeDTO.getDepartment())).build();
 		}
 		return null;
 	}
 
 	
-	public EmployeeDTO toBom(EmployeeEntity entity) {
-		if (entity != null) {
-			return  new EmployeeDTO(entity.getId(), entity.getName(), entity.getAge(), entity.getEmail(),
-					departmentConverter.toBom(entity.getDepartment()));
+	public EmployeeDTO toDTO(EmployeeEntity employeeEntity) {
+		if (employeeEntity != null) {
+			return  new EmployeeDTO(employeeEntity.getId(), employeeEntity.getName(), employeeEntity.getAge(), employeeEntity.getEmail(),
+					departmentConverter.toDTO(employeeEntity.getDepartment()));
 		}
 		return null;
 	}
 	
-	public List<EmployeeDTO> toBoms(List<EmployeeEntity> entities) {
-		if (entities == null) {
+	public List<EmployeeDTO> toDTOs(List<EmployeeEntity> employeeEntities) {
+		if (employeeEntities == null) {
 			return Collections.emptyList();
 		}
-		List<EmployeeDTO> boms = new ArrayList<>();
-		entities.stream().map(each -> toBom(each)).filter(Objects::nonNull).forEach(bom -> boms.add(bom));
-		return boms;
+		List<EmployeeDTO> employeeDTOs = new ArrayList<>();
+		employeeEntities.stream().map(each -> toDTO(each)).filter(Objects::nonNull).forEach(employeeDTO -> employeeDTOs.add(employeeDTO));
+		return employeeDTOs;
 	}
 }

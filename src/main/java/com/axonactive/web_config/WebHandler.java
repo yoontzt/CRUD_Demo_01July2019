@@ -20,6 +20,7 @@ import com.axonactive.entites.DepartmentEntity;
 import com.axonactive.services.DepartmentService;
 import com.axonactive.services.EmployeeService;
 
+import exception.MyApplicationException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -64,15 +65,15 @@ public class WebHandler {
 		PrimeFaces.current().executeScript("PF('addEmployee').hide()");
 	}
 
-	public void updateEmployeeFromPage() {
+	public void updateEmployeeFromPage() throws MyApplicationException {
 		employee.setDepartment(department);
 		empService.updateEmployee(employee);
 		employeeList =empService.getAll();
 		PrimeFaces.current().executeScript("PF('UpdateEmployee').hide()");
 	}
 
-	public void deleteEmployeeFromPage(EmployeeDTO employeeBOM) {
-		empService.deleteEmployeeForController(employeeConverter.toEntity(employeeBOM));
+	public void deleteEmployeeFromPage(EmployeeDTO employeeDTO)  throws MyApplicationException {
+		empService.deleteEmployeeForController(employeeConverter.toEntity(employeeDTO));
 		employeeList =empService.getAll();
 	}
 
@@ -83,7 +84,7 @@ public class WebHandler {
 	}
 
 	public void changeDepartment(ValueChangeEvent dept) {
-		department = departmentConverter.toBom(depService.findDepartmentById(Integer.parseInt(dept.getNewValue().toString())));
+		department = departmentConverter.toDTO(depService.findDepartmentById(Integer.parseInt(dept.getNewValue().toString())));
 	}
 	
 	private void clear() {

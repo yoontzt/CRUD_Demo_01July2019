@@ -11,36 +11,36 @@ import com.axonactive.entites.DepartmentEntity;
 public class DepartmentConverter {
 
 	
-	public DepartmentEntity toEntity(DepartmentDTO bom) {
-		if (bom != null) {
-			return new DepartmentEntity(bom.getId(), bom.getName());
+	public DepartmentEntity toEntity(DepartmentDTO departmentDTO) {
+		if (departmentDTO != null) {
+			return DepartmentEntity.builder().id(departmentDTO.getId()).name(departmentDTO.getName()).build();
 		}
 		return null;
 	}
 
-	public DepartmentDTO toBom(DepartmentEntity entity) {
-		if (entity != null) {
-			return new DepartmentDTO(entity.getId(), entity.getName());
+	public DepartmentDTO toDTO(DepartmentEntity deparmentEntity) {
+		if (deparmentEntity != null) {
+			return new DepartmentDTO(deparmentEntity.getId(), deparmentEntity.getName());
 		}
 		return null;
 	}
 	
-	public List<DepartmentEntity> toEntities(List<DepartmentDTO> boms) {
-		if (boms == null) {
+	public List<DepartmentEntity> toEntities(List<DepartmentDTO> departmentDTOs) {
+		if (departmentDTOs == null) {
 			return Collections.emptyList();
 		}
 		List<DepartmentEntity> entities = new ArrayList<>();
-		boms.stream().map(each -> toEntity(each)).filter(Objects::nonNull).forEach(entity -> entities.add(entity));
+		departmentDTOs.stream().map(each -> toEntity(each)).filter(Objects::nonNull).forEach(deparmentEntity -> entities.add(deparmentEntity));
 		return entities;
 	}
 	
-	public List<DepartmentDTO> toBoms(List<DepartmentEntity> entities) {
-		if (entities == null) {
+	public List<DepartmentDTO> toDTOs(List<DepartmentEntity> deparmentEntities) {
+		if (deparmentEntities == null) {
 			return Collections.emptyList();
 		}
-		List<DepartmentDTO> boms = new ArrayList<>();
-		entities.stream().map(each -> toBom(each)).filter(Objects::nonNull).forEach(bom -> boms.add(bom));
-		return boms;
+		List<DepartmentDTO> departmentDTOs = new ArrayList<>();
+		deparmentEntities.stream().map(each -> toDTO(each)).filter(Objects::nonNull).forEach(departmentDTO -> departmentDTOs.add(departmentDTO));
+		return departmentDTOs;
 	}
 
 }

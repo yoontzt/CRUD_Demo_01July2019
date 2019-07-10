@@ -22,7 +22,7 @@ public class DepartmentService extends GenericService<DepartmentEntity, Departme
 	public List<DepartmentDTO> getAll() {
 		TypedQuery<DepartmentEntity> q = em.createNamedQuery("showDepartmentList", DepartmentEntity.class);
 		List<DepartmentEntity> departmentEntities = q.getResultList();
-		return departmentConverter.toBoms(departmentEntities);
+		return departmentConverter.toDTOs(departmentEntities);
 	}
 
 	public DepartmentEntity findDepartmentById(int deptId) {
