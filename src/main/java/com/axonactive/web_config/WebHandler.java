@@ -18,7 +18,6 @@ import com.axonactive.converter.EmployeeConverter;
 import com.axonactive.dto.DepartmentDTO;
 import com.axonactive.dto.EmployeeDTO;
 import com.axonactive.entites.DepartmentEntity;
-import com.axonactive.exception.InvalidValueException;
 import com.axonactive.services.DepartmentService;
 import com.axonactive.services.EmployeeService;
 
@@ -70,14 +69,15 @@ public class WebHandler implements Serializable {
 		PrimeFaces.current().executeScript("PF('addEmployee').hide()");
 	}
 
-	public void updateEmployeeFromPage() throws InvalidValueException {
+	public void updateEmployeeFromPage() {
 		employee.setDepartment(department);
 		empService.updateEmployee(employee);
 		employeeList =empService.getAllEmployeeList();
+		clear();
 		PrimeFaces.current().executeScript("PF('UpdateEmployee').hide()");
 	}
 
-	public void deleteEmployeeFromPage(EmployeeDTO employeeDTO)  throws InvalidValueException {
+	public void deleteEmployeeFromPage(EmployeeDTO employeeDTO){
 		empService.deleteEmployeeForController(employeeConverter.toEntity(employeeDTO));
 		employeeList =empService.getAllEmployeeList();
 	}
@@ -93,8 +93,6 @@ public class WebHandler implements Serializable {
 	}
 	
 	private void clear() {
-		employee.setName("");
-		employee.setAge("");
-		employee.setEmail("");
+		employee = new EmployeeDTO();
 	}
 }

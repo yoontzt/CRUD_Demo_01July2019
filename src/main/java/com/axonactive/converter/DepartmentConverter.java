@@ -10,7 +10,6 @@ import com.axonactive.entites.DepartmentEntity;
 
 public class DepartmentConverter {
 
-	
 	public DepartmentEntity toEntity(DepartmentDTO departmentDTO) {
 		if (departmentDTO != null) {
 			return DepartmentEntity.builder().id(departmentDTO.getId()).name(departmentDTO.getName()).build();
@@ -33,5 +32,4 @@ public class DepartmentConverter {
 		deparmentEntities.stream().map(each -> toDTO(each)).filter(Objects::nonNull).forEach(departmentDTO -> departmentDTOs.add(departmentDTO));
 		return departmentDTOs;
 	}
-
 }
