@@ -22,6 +22,7 @@ import com.axonactive.entites.EmployeeEntity;
 import com.axonactive.exception.InvalidValueException;
 import com.axonactive.exception.ParameterMissingException;
 import com.axonactive.services.EmployeeService;
+import com.axonactive.exception.*;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -134,5 +135,6 @@ public class EmployeeResource {
 			return Response.status(Status.OK).build();
 		}
 		throw new InvalidValueException("Fail to delete Employee!! Requested id is not in the employee list.");
+	
 	}
 }
