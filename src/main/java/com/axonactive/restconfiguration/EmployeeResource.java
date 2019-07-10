@@ -19,12 +19,17 @@ import javax.ws.rs.core.Response.Status;
 import com.axonactive.converter.EmployeeConverter;
 import com.axonactive.dto.EmployeeDTO;
 import com.axonactive.entites.EmployeeEntity;
+import com.axonactive.exception.InvalidValueException;
+import com.axonactive.exception.ParameterMissingException;
 import com.axonactive.services.EmployeeService;
 
+<<<<<<< HEAD
 import exception.AttributeMissingException;
 import exception.MyApplicationException;
 import io.swagger.annotations.Api;
 import lombok.extern.java.Log;
+=======
+>>>>>>> 58d37162ac20c62a35cea719945a05ac4d386e12
 @Stateless
 @Path("/example")
 @Produces({MediaType.APPLICATION_JSON})
@@ -43,7 +48,7 @@ public class EmployeeResource {
 	public List<EmployeeDTO> getAllList() {
 		List<EmployeeDTO> employeeList = employeeService.getAllEmployeeList();
 		if (employeeList.isEmpty()) {
-			throw new MyApplicationException("Currently there is no employee to be showed.");
+			throw new InvalidValueException("Currently there is no employee to be showed.");
 		}
 		return employeeList;
 	}
@@ -56,11 +61,11 @@ public class EmployeeResource {
 		try {
 			Integer.parseInt(id);
 		} catch (NumberFormatException ex) {
-			throw new MyApplicationException("Id should be a number!! Please Check the Id value.");
+			throw new InvalidValueException("Id should be a number!! Please Check the Id value.");
 		}
 		EmployeeDTO employee = employeeConverter.toDTO(employeeService.findEmployeeById(Integer.parseInt(id)));
 		if (employee == null) {
-			throw new MyApplicationException("Requested id is not in the list !!");
+			throw new InvalidValueException("Requested id is not in the list !!");
 		}
 		return Response.status(Status.OK).entity(employee).build();
 	}
@@ -72,7 +77,7 @@ public class EmployeeResource {
 		try {
 			employeeService.addEmployee(employee);
 		} catch (Exception ex) {
-			throw new AttributeMissingException("Some input parameters are missing!! Please check again.");
+			throw new ParameterMissingException("Some input parameters are missing!! Please check again.");
 		}
 		return Response.status(Status.OK).build();
 	}
@@ -84,7 +89,7 @@ public class EmployeeResource {
 		try {
 			employeeService.updateEmployee(employee);
 		} catch (Exception ex) {
-			throw new AttributeMissingException("Some input parameters are missing!! Please check again.");
+			throw new ParameterMissingException("Some input parameters are missing!! Please check again.");
 		}
 		return Response.status(Status.OK).build();		
 	}
@@ -96,14 +101,19 @@ public class EmployeeResource {
 	public Response deleteEmployeebyId(@PathParam("EmployeeId") String id) {
 		try {
 			Integer.parseInt(id);
+<<<<<<< HEAD
 		} catch (NumberFormatException exception) {
 			throw new MyApplicationException("Id should be a number!! Please Check the Id value.");
+=======
+		} catch (NumberFormatException ex) {
+			throw new InvalidValueException("Id should be a number!! Please Check the Id value.");
+>>>>>>> 58d37162ac20c62a35cea719945a05ac4d386e12
 		}
 		EmployeeEntity employeeEntity = employeeService.findEmployeeById(Integer.parseInt(id));
 		if (employeeEntity != null) {
 			employeeService.deleteEmployeeForREST(employeeEntity);
 			return Response.status(Status.OK).build();
 		}
-		throw new MyApplicationException("Fail to delete Employee!! Requested id is not in the employee list.");
+		throw new InvalidValueException("Fail to delete Employee!! Requested id is not in the employee list.");
 	}
 }

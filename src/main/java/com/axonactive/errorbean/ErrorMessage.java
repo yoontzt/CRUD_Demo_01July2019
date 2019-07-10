@@ -3,16 +3,16 @@ package com.axonactive.errorbean;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class ErrorResponse {
+public class ErrorMessage {
 
 	private int errorCode;
 	private String errorMessage;
 	private String timeStamp;
 
-	public ErrorResponse() {
+	public ErrorMessage() {
 	}
 
-	public ErrorResponse(int errorCode, String errorMessage, String timeStamp) {
+	public ErrorMessage(int errorCode, String errorMessage, String timeStamp) {
 		super();
 		this.errorCode = errorCode;
 		this.errorMessage = errorMessage;

@@ -1,5 +1,6 @@
 package com.axonactive.web_config;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,17 +18,21 @@ import com.axonactive.converter.EmployeeConverter;
 import com.axonactive.dto.DepartmentDTO;
 import com.axonactive.dto.EmployeeDTO;
 import com.axonactive.entites.DepartmentEntity;
+import com.axonactive.exception.InvalidValueException;
 import com.axonactive.services.DepartmentService;
 import com.axonactive.services.EmployeeService;
 
-import exception.MyApplicationException;
 import lombok.Getter;
 import lombok.Setter;
 
 @SuppressWarnings("deprecation")
 @ManagedBean(name = "webHandler")
 @ViewScoped
-public class WebHandler {
+public class WebHandler implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7889451587603628722L;
 	private @Getter @Setter DepartmentDTO department = new DepartmentDTO();
 	private @Getter @Setter EmployeeDTO employee = new EmployeeDTO();
 	private @Getter @Setter DepartmentEntity departmentEntity=new DepartmentEntity();
@@ -65,14 +70,14 @@ public class WebHandler {
 		PrimeFaces.current().executeScript("PF('addEmployee').hide()");
 	}
 
-	public void updateEmployeeFromPage() throws MyApplicationException {
+	public void updateEmployeeFromPage() throws InvalidValueException {
 		employee.setDepartment(department);
 		empService.updateEmployee(employee);
 		employeeList =empService.getAllEmployeeList();
 		PrimeFaces.current().executeScript("PF('UpdateEmployee').hide()");
 	}
 
-	public void deleteEmployeeFromPage(EmployeeDTO employeeDTO)  throws MyApplicationException {
+	public void deleteEmployeeFromPage(EmployeeDTO employeeDTO)  throws InvalidValueException {
 		empService.deleteEmployeeForController(employeeConverter.toEntity(employeeDTO));
 		employeeList =empService.getAllEmployeeList();
 	}
