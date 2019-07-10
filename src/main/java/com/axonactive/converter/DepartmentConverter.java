@@ -44,5 +44,4 @@ public class DepartmentConverter {
 		deparmentEntities.stream().map(this::toDTO).filter(Objects::nonNull).forEach(departmentDTOs::add);
 		return departmentDTOs;
 	}
-
 }

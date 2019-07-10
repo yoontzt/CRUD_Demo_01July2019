@@ -27,8 +27,8 @@ public class EmployeeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
-	@Column(name = "name", nullable = true)
+	
+	@Column(name="name",nullable=false)
 	private String name;
 
 	@Column(name = "age", nullable = true)
