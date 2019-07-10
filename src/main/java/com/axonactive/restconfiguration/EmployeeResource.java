@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.axonactive.converter.EmployeeConverter;
 import com.axonactive.dto.EmployeeDTO;
 import com.axonactive.entites.EmployeeEntity;
 import com.axonactive.services.EmployeeService;
@@ -27,6 +28,8 @@ public class EmployeeResource {
 	@EJB
 	EmployeeService employeeService;
 
+	EmployeeConverter employeeConverter = new EmployeeConverter();
+	
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	public List<EmployeeDTO> showAll() {
@@ -38,7 +41,7 @@ public class EmployeeResource {
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
 	public EmployeeDTO read(@PathParam("EmployeeId") int id) {
-		return employeeService.toBom(employeeService.findById(id));
+		return employeeConverter.toBom(employeeService.findById(id));
 	}
 
 	@POST

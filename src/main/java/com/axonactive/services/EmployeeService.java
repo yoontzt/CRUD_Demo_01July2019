@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+import com.axonactive.converter.EmployeeConverter;
 import com.axonactive.dto.EmployeeDTO;
 import com.axonactive.entites.EmployeeEntity;
 
@@ -18,6 +19,7 @@ public class EmployeeService extends GenericService<EmployeeEntity, EmployeeDTO>
 	@EJB
 	EmployeeService empService;
 	
+	EmployeeConverter employeeConverter = new EmployeeConverter();
 	/**
 	 * Find all employee from database
 	 * 
@@ -26,7 +28,7 @@ public class EmployeeService extends GenericService<EmployeeEntity, EmployeeDTO>
 	public List<EmployeeDTO> getAll() {
 		TypedQuery<EmployeeEntity> q = em.createNamedQuery("showEmployeeList", EmployeeEntity.class);
 		List<EmployeeEntity> employeeEntities = q.getResultList();
-		return empService.toBoms(employeeEntities);
+		return employeeConverter.toBoms(employeeEntities);
 	}
 
 	/**
@@ -41,7 +43,7 @@ public class EmployeeService extends GenericService<EmployeeEntity, EmployeeDTO>
 	}
 
 	public void addEmployee(EmployeeDTO e) {
-		EmployeeEntity newEntity = empService.toEntity(e);
+		EmployeeEntity newEntity = employeeConverter.toEntity(e);
 		newEntity.setName(e.getName());
 		newEntity.setAge(e.getAge());
 		newEntity.setEmail(e.getEmail());
@@ -50,7 +52,7 @@ public class EmployeeService extends GenericService<EmployeeEntity, EmployeeDTO>
 	}
 
 	public void updateEmployee(EmployeeDTO e) {
-		EmployeeEntity newEntity = findById(empService.toEntity(e).getId());
+		EmployeeEntity newEntity = findById(employeeConverter.toEntity(e).getId());
 		newEntity.setName(e.getName());
 		newEntity.setAge(e.getAge());
 		newEntity.setEmail(e.getEmail());
@@ -70,21 +72,4 @@ public class EmployeeService extends GenericService<EmployeeEntity, EmployeeDTO>
 		this.remove(empEntity);
 	}
 
-	@Override
-	public EmployeeEntity toEntity(EmployeeDTO bom) {
-		if (bom != null) {
-			return EmployeeEntity.builder().id(bom.getId()).name(bom.getName()).email(bom.getEmail()).age(bom.getAge())
-					.department(deptService.toEntity(bom.getDepartment())).build();
-		}
-		return null;
-	}
-
-	@Override
-	public EmployeeDTO toBom(EmployeeEntity entity) {
-		if (entity != null) {
-			return  new EmployeeDTO(entity.getId(), entity.getName(), entity.getAge(), entity.getEmail(),
-					deptService.toBom(entity.getDepartment()));
-		}
-		return null;
-	}
 }

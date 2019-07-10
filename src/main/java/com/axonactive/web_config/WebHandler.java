@@ -12,6 +12,8 @@ import javax.persistence.NoResultException;
 
 import org.primefaces.PrimeFaces;
 
+import com.axonactive.converter.DepartmentConverter;
+import com.axonactive.converter.EmployeeConverter;
 import com.axonactive.dto.DepartmentDTO;
 import com.axonactive.dto.EmployeeDTO;
 import com.axonactive.entites.DepartmentEntity;
@@ -35,6 +37,10 @@ public class WebHandler {
 
 	@Inject
 	private DepartmentService depService;
+	
+	DepartmentConverter departmentConverter = new DepartmentConverter();
+	
+	EmployeeConverter employeeConverter = new EmployeeConverter();
 
 	private @Getter @Setter List<EmployeeDTO> employeeList = new ArrayList<>();
 
@@ -66,7 +72,7 @@ public class WebHandler {
 	}
 
 	public void deleteEmployeeFromPage(EmployeeDTO employeeBOM) {
-		empService.deleteEmployeeForController(empService.toEntity(employeeBOM));
+		empService.deleteEmployeeForController(employeeConverter.toEntity(employeeBOM));
 		employeeList =empService.getAll();
 	}
 
@@ -77,7 +83,7 @@ public class WebHandler {
 	}
 
 	public void changeDepartment(ValueChangeEvent dept) {
-		department = depService.toBom(depService.findDepartmentById(Integer.parseInt(dept.getNewValue().toString())));
+		department = departmentConverter.toBom(depService.findDepartmentById(Integer.parseInt(dept.getNewValue().toString())));
 	}
 	
 	private void clear() {

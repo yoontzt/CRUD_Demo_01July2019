@@ -19,6 +19,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.primefaces.PrimeFaces;
 
+import com.axonactive.converter.DepartmentConverter;
+import com.axonactive.converter.EmployeeConverter;
 import com.axonactive.dto.DepartmentDTO;
 import com.axonactive.dto.EmployeeDTO;
 import com.axonactive.entites.DepartmentEntity;
@@ -39,6 +41,12 @@ public class WebHandlerTest {
 
 	@Mock
 	EmployeeService empService;
+	
+	@Mock
+	EmployeeConverter employeeConverter;
+	
+	@Mock
+	DepartmentConverter departmentConverter;
 
 	@Mock
 	ValueChangeEvent valueChangeEvent;
@@ -114,7 +122,7 @@ public class WebHandlerTest {
 		webHandler.setEmployee(employee);
 
 		// Mock when
-		Mockito.when(empService.toEntity(employee)).thenReturn(createEmployeeEntity());
+		Mockito.when(employeeConverter.toEntity(employee)).thenReturn(createEmployeeEntity());
 		// Call function
 		webHandler.deleteEmployeeFromPage(employee);
 
@@ -145,7 +153,7 @@ public class WebHandlerTest {
 		// Mock
 		Mockito.when(valueChangeEvent.getNewValue()).thenReturn(1);
 		Mockito.when(depService.findDepartmentById(1)).thenReturn(departmentEntity);
-		Mockito.when(depService.toBom(departmentEntity)).thenReturn(createDepartment());
+		Mockito.when(departmentConverter.toBom(departmentEntity)).thenReturn(createDepartment());
 
 		// Call Function
 		webHandler.changeDepartment(valueChangeEvent);
