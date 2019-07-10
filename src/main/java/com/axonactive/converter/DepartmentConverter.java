@@ -10,7 +10,6 @@ import com.axonactive.entites.DepartmentEntity;
 
 public class DepartmentConverter {
 
-	
 	public DepartmentEntity toEntity(DepartmentDTO departmentDTO) {
 		if (departmentDTO != null) {
 			return DepartmentEntity.builder().id(departmentDTO.getId()).name(departmentDTO.getName()).build();
@@ -25,16 +24,7 @@ public class DepartmentConverter {
 		return null;
 	}
 	
-	public List<DepartmentEntity> toEntities(List<DepartmentDTO> departmentDTOs) {
-		if (departmentDTOs == null) {
-			return Collections.emptyList();
-		}
-		List<DepartmentEntity> entities = new ArrayList<>();
-		departmentDTOs.stream().map(each -> toEntity(each)).filter(Objects::nonNull).forEach(deparmentEntity -> entities.add(deparmentEntity));
-		return entities;
-	}
-	
-	public List<DepartmentDTO> toDTOs(List<DepartmentEntity> deparmentEntities) {
+	public  List<DepartmentDTO> toDTOs(List<DepartmentEntity> deparmentEntities) {
 		if (deparmentEntities == null) {
 			return Collections.emptyList();
 		}
@@ -42,5 +32,4 @@ public class DepartmentConverter {
 		deparmentEntities.stream().map(each -> toDTO(each)).filter(Objects::nonNull).forEach(departmentDTO -> departmentDTOs.add(departmentDTO));
 		return departmentDTOs;
 	}
-
 }

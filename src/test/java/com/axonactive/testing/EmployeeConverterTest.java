@@ -2,6 +2,9 @@ package com.axonactive.testing;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -40,14 +43,12 @@ public class EmployeeConverterTest  {
 	
 	@Test
 	public void testToEntity_ShouldReturnNull_WhenDTOisNull() {	
-		
 		EmployeeEntity actual = employeeConverter.toEntity(null);
 		assertEquals(null,actual);
 	}
 
 	@Test
 	public void testToDTO_ShouldReturnDTO_WhenEntityisGiven() {
-		
 		EmployeeEntity employeeEntity = createEmployeeEntity();
 		EmployeeDTO expected = createEmployeeDTO();
 		DepartmentDTO departmentDTO = createDepartmentDTO();
@@ -60,19 +61,35 @@ public class EmployeeConverterTest  {
 	
 	@Test 
 	public void testToDTO_ShouldReturnNull_WhenEntityIsNull() {	
-		
 		EmployeeDTO actual = employeeConverter.toDTO(null);
 		assertEquals(null,actual);
 	}
 	
-
+	@Test
+	public void testToDTOs_ShouldReturnDTOList_WhenEntityListIsGiven() {
+		EmployeeEntity employeeEntity = createEmployeeEntity();
+		DepartmentDTO departmentDTO = createDepartmentDTO();
+		List<EmployeeDTO> expected = Arrays.asList(createEmployeeDTO(),createEmployeeDTO());
+		List<EmployeeEntity> employeeEntities = Arrays.asList(createEmployeeEntity(),createEmployeeEntity());
+		
+		Mockito.when(departmentConverter.toDTO(employeeEntity.getDepartment())).thenReturn(departmentDTO);
+		
+		List<EmployeeDTO> actual = employeeConverter.toDTOs(employeeEntities);
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	public void testToDTOs_ShouldReturnDTOEmptyList_WhenEntityListIsNull() {
+		List<EmployeeDTO> actual = employeeConverter.toDTOs(null);
+		assertEquals(Arrays.asList(), actual);
+	}
+	
 	private DepartmentDTO createDepartmentDTO() {
-
 		return new DepartmentDTO(1, "ICT");
 	}
 
 	private DepartmentEntity createDepartmentEntity() {
-		return new DepartmentEntity(1, "Yoon");
+		return new DepartmentEntity(1, "ICT");
 	}
 
 	private EmployeeDTO createEmployeeDTO() {
