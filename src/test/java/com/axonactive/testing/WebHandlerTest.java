@@ -165,7 +165,7 @@ public class WebHandlerTest {
 
 	private EmployeeDTO createEmployee() {
 		DepartmentDTO department = createDepartment();
-		return new EmployeeDTO(1, "Yoon", 20, "yoon@gmail.com", department);
+		return new EmployeeDTO(1, "Yoon", "20", "yoon@gmail.com", department);
 	}
 
 	private DepartmentDTO createDepartment() {
@@ -179,7 +179,7 @@ public class WebHandlerTest {
 
 	private EmployeeEntity createEmployeeEntity() {
 		DepartmentEntity department = createDepartmentEntity();
-		return new EmployeeEntity(1, "Yoon", 20, "yoon@gmail.com", department);
+		return new EmployeeEntity(1, "Yoon", "20", "yoon@gmail.com", department);
 	}
 
 }

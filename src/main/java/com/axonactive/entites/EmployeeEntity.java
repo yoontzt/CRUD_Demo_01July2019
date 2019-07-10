@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
-	@NamedQuery(name="showEmployeeList",query="select e from EmployeeEntity e")
+	@NamedQuery(name="showEmployeeList",query="select e from EmployeeEntity e order by e.id ASC")
 })
 @Entity
 @Table(name="employee")
@@ -35,7 +35,7 @@ public class EmployeeEntity {
 	private String name;
 	
 	@Column(name="age",nullable=true)
-	private int age;
+	private String age;
 	
 	@Column(name="email",nullable=true)
 	private String email;

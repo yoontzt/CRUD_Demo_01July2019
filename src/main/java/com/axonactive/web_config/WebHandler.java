@@ -88,6 +88,8 @@ public class WebHandler {
 	}
 	
 	private void clear() {
-		setEmployee(null);
+		employee.setName("");
+		employee.setAge("");
+		employee.setEmail("");
 	}
 }

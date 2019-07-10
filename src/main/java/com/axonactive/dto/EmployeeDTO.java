@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class EmployeeDTO {
 	private int id;
 	private String name;
-	private Integer age;
+	private String age;
 	private String email;
 	private DepartmentDTO department;
 }
