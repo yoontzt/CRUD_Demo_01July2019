@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import com.axonactive.converter.DepartmentConverter;
@@ -16,9 +15,9 @@ public class DepartmentService extends GenericService<DepartmentEntity, Departme
 
 	@EJB
 	DepartmentService deptService;
-	
+
 	DepartmentConverter departmentConverter = new DepartmentConverter();
-	
+
 	public List<DepartmentDTO> getAllDepartmentList() {
 		TypedQuery<DepartmentEntity> query = em.createNamedQuery("showDepartmentList", DepartmentEntity.class);
 		List<DepartmentEntity> departmentEntities = query.getResultList();
@@ -26,13 +25,8 @@ public class DepartmentService extends GenericService<DepartmentEntity, Departme
 	}
 
 	public DepartmentEntity findDepartmentById(int deptId) {
-		List<DepartmentEntity> department = em.createNamedQuery("findByDepartmentId", DepartmentEntity.class)
-				.setParameter("deptid", deptId).getResultList();
-		
-		if (department.isEmpty())
-			throw new NoResultException("No source found");
-		else
-			return department.get(0);
+		return em.createNamedQuery("findByDepartmentId", DepartmentEntity.class)
+				.setParameter("deptid", deptId).getSingleResult();
 	}
 
 }

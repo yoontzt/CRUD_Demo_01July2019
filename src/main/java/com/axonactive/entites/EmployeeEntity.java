@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -20,27 +19,25 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@NamedQueries({
-	@NamedQuery(name="showEmployeeList",query="select e from EmployeeEntity e order by e.id ASC")
-})
+@NamedQuery(name = "showEmployeeList", query = "select e from EmployeeEntity e order by e.id ASC")
 @Entity
-@Table(name="employee")
+@Table(name = "employee")
 public class EmployeeEntity {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-	@Column(name="name",nullable=true)
+
+	@Column(name = "name", nullable = true)
 	private String name;
-	
-	@Column(name="age",nullable=true)
+
+	@Column(name = "age", nullable = true)
 	private String age;
-	
-	@Column(name="email",nullable=true)
+
+	@Column(name = "email", nullable = true)
 	private String email;
-	
+
 	@ManyToOne
-	@JoinColumn(name="department",nullable = true)
+	@JoinColumn(name = "department", nullable = true)
 	private DepartmentEntity department;
 }

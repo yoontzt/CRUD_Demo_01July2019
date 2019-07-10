@@ -5,12 +5,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import javax.ejb.Stateless;
+
 import com.axonactive.dto.DepartmentDTO;
 import com.axonactive.entites.DepartmentEntity;
 
+@Stateless
 public class DepartmentConverter {
 
-	
 	public DepartmentEntity toEntity(DepartmentDTO departmentDTO) {
 		if (departmentDTO != null) {
 			return DepartmentEntity.builder().id(departmentDTO.getId()).name(departmentDTO.getName()).build();
@@ -30,7 +32,7 @@ public class DepartmentConverter {
 			return Collections.emptyList();
 		}
 		List<DepartmentEntity> entities = new ArrayList<>();
-		departmentDTOs.stream().map(each -> toEntity(each)).filter(Objects::nonNull).forEach(deparmentEntity -> entities.add(deparmentEntity));
+		departmentDTOs.stream().map( this::toEntity).filter(Objects::nonNull).forEach(entities::add);
 		return entities;
 	}
 	
@@ -39,7 +41,7 @@ public class DepartmentConverter {
 			return Collections.emptyList();
 		}
 		List<DepartmentDTO> departmentDTOs = new ArrayList<>();
-		deparmentEntities.stream().map(each -> toDTO(each)).filter(Objects::nonNull).forEach(departmentDTO -> departmentDTOs.add(departmentDTO));
+		deparmentEntities.stream().map(this::toDTO).filter(Objects::nonNull).forEach(departmentDTOs::add);
 		return departmentDTOs;
 	}
 

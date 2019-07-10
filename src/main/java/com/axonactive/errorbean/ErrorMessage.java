@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class ErrorMessage {
 
 	private int errorCode;
-	private String errorMessage;
+	private String errorMessages;
 	private String timeStamp;
 
 	public ErrorMessage() {
@@ -15,7 +15,7 @@ public class ErrorMessage {
 	public ErrorMessage(int errorCode, String errorMessage, String timeStamp) {
 		super();
 		this.errorCode = errorCode;
-		this.errorMessage = errorMessage;
+		this.errorMessages = errorMessage;
 		this.timeStamp = timeStamp;
 	}
 
@@ -27,12 +27,12 @@ public class ErrorMessage {
 		this.errorCode = errorCode;
 	}
 
-	public String geterrorMessage() {
-		return errorMessage;
+	public String getErrorMessages() {
+		return errorMessages;
 	}
 
 	public void seterrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
+		this.errorMessages = errorMessage;
 	}
 
 	public String getTimeStamp() {

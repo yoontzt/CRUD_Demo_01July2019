@@ -34,7 +34,7 @@ public class EmployeeConverter {
 			return Collections.emptyList();
 		}
 		List<EmployeeDTO> employeeDTOs = new ArrayList<>();
-		employeeEntities.stream().map(each -> toDTO(each)).filter(Objects::nonNull).forEach(employeeDTO -> employeeDTOs.add(employeeDTO));
+		employeeEntities.stream().map(this::toDTO).filter(Objects::nonNull).forEach(employeeDTOs::add);
 		return employeeDTOs;
 	}
 }

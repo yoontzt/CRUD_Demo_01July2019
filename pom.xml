@@ -91,11 +91,13 @@
 			<artifactId>sonar-maven-plugin</artifactId>
 			<version>3.2</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.swagger/swagger-jaxrs -->
 		<dependency>
-			<groupId>com.github.phillip-kruger</groupId>
-			<artifactId>apiee-core</artifactId>
-			<version>1.0.1</version>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-jaxrs</artifactId>
+			<version>1.5.22</version>
 		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>demo</finalName>

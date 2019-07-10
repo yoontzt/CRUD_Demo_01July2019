@@ -23,19 +23,21 @@ import com.axonactive.exception.InvalidValueException;
 import com.axonactive.exception.ParameterMissingException;
 import com.axonactive.services.EmployeeService;
 
-<<<<<<< HEAD
-import exception.AttributeMissingException;
-import exception.MyApplicationException;
 import io.swagger.annotations.Api;
-import lombok.extern.java.Log;
-=======
->>>>>>> 58d37162ac20c62a35cea719945a05ac4d386e12
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.Info;
+import io.swagger.annotations.SwaggerDefinition;
+
 @Stateless
 @Path("/example")
-@Produces({MediaType.APPLICATION_JSON})
-@Consumes({MediaType.APPLICATION_JSON})
-@Api(value = "Employee service")
-@Log
+@SwaggerDefinition (
+		schemes = {SwaggerDefinition.Scheme.HTTP,SwaggerDefinition.Scheme.HTTPS},
+		info = @Info (title = "Employee Management",description = "A simple example of apiee",version = "1.0.0"))
+@Api(tags="tags")
+@Produces(MediaType.APPLICATION_JSON)
+
 public class EmployeeResource {
 
 	@EJB
@@ -45,6 +47,10 @@ public class EmployeeResource {
 	
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
+	 @ApiOperation(value = "Fetch all to dos")
+	  @ApiResponses({
+	    @ApiResponse(code=200, message="Success")
+	  })
 	public List<EmployeeDTO> getAllList() {
 		List<EmployeeDTO> employeeList = employeeService.getAllEmployeeList();
 		if (employeeList.isEmpty()) {
@@ -57,6 +63,10 @@ public class EmployeeResource {
 	@Path("{EmployeeId}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
+	@ApiOperation(value = "Find employee by id")
+	  @ApiResponses({
+	    @ApiResponse(code=200, message="Success")
+	  })
 	public Response getEmployeeById(@PathParam("EmployeeId") String id) {
 		try {
 			Integer.parseInt(id);
@@ -73,6 +83,10 @@ public class EmployeeResource {
 	@POST
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
+	@ApiOperation(value = "Add new Employee")
+	  @ApiResponses({
+	    @ApiResponse(code=204, message="Success")
+	  })
 	public Response addEmployee(EmployeeDTO employee) {
 		try {
 			employeeService.addEmployee(employee);
@@ -85,6 +99,11 @@ public class EmployeeResource {
 	@PUT
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
+	@ApiOperation(value = "Update  Employee")
+	  @ApiResponses({
+	    @ApiResponse(code=204, message="Success"),
+	    @ApiResponse(code=404, message="Not Found")
+	  })
 	public Response updateEmployee(EmployeeDTO employee) {
 		try {
 			employeeService.updateEmployee(employee);
@@ -98,16 +117,16 @@ public class EmployeeResource {
 	@Path("{EmployeeId}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
+	@ApiOperation(value = "Update  Employee")
+	  @ApiResponses({
+	    @ApiResponse(code=204, message="Success"),
+	    @ApiResponse(code=404, message="Not Found")
+	  })
 	public Response deleteEmployeebyId(@PathParam("EmployeeId") String id) {
 		try {
 			Integer.parseInt(id);
-<<<<<<< HEAD
-		} catch (NumberFormatException exception) {
-			throw new MyApplicationException("Id should be a number!! Please Check the Id value.");
-=======
 		} catch (NumberFormatException ex) {
 			throw new InvalidValueException("Id should be a number!! Please Check the Id value.");
->>>>>>> 58d37162ac20c62a35cea719945a05ac4d386e12
 		}
 		EmployeeEntity employeeEntity = employeeService.findEmployeeById(Integer.parseInt(id));
 		if (employeeEntity != null) {
