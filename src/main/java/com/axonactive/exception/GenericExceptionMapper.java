@@ -1,4 +1,4 @@
-package exception;
+package com.axonactive.exception;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,7 +8,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 
-import com.axonactive.errorbean.ErrorResponse;
+import com.axonactive.errorbean.ErrorMessage;
 
 
 public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
@@ -19,7 +19,7 @@ public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
 		SimpleDateFormat timeGMT = new SimpleDateFormat("EEE dd/MM/yyyy HH:mm:ss z");
 		timeGMT.setTimeZone(TimeZone.getTimeZone("GMT+7:00"));
 		String timeStampLocal = timeGMT.format(d);
-		ErrorResponse errorResponse = new ErrorResponse(500, exception.getMessage(), timeStampLocal);
+		ErrorMessage errorResponse = new ErrorMessage(500, exception.getMessage(), timeStampLocal);
 		return Response.status(Status.INTERNAL_SERVER_ERROR).entity(errorResponse).build();
 	}
 }
