@@ -22,20 +22,9 @@ import com.axonactive.entites.EmployeeEntity;
 import com.axonactive.exception.InvalidValueException;
 import com.axonactive.exception.ParameterMissingException;
 import com.axonactive.services.EmployeeService;
+import com.axonactive.exception.*;
 
-<<<<<<< HEAD
-import exception.AttributeMissingException;
-import exception.MyApplicationException;
-import io.swagger.annotations.Api;
-import lombok.extern.java.Log;
-=======
->>>>>>> 58d37162ac20c62a35cea719945a05ac4d386e12
-@Stateless
-@Path("/example")
-@Produces({MediaType.APPLICATION_JSON})
-@Consumes({MediaType.APPLICATION_JSON})
-@Api(value = "Employee service")
-@Log
+
 public class EmployeeResource {
 
 	@EJB
@@ -101,13 +90,8 @@ public class EmployeeResource {
 	public Response deleteEmployeebyId(@PathParam("EmployeeId") String id) {
 		try {
 			Integer.parseInt(id);
-<<<<<<< HEAD
-		} catch (NumberFormatException exception) {
-			throw new MyApplicationException("Id should be a number!! Please Check the Id value.");
-=======
 		} catch (NumberFormatException ex) {
 			throw new InvalidValueException("Id should be a number!! Please Check the Id value.");
->>>>>>> 58d37162ac20c62a35cea719945a05ac4d386e12
 		}
 		EmployeeEntity employeeEntity = employeeService.findEmployeeById(Integer.parseInt(id));
 		if (employeeEntity != null) {
@@ -115,5 +99,6 @@ public class EmployeeResource {
 			return Response.status(Status.OK).build();
 		}
 		throw new InvalidValueException("Fail to delete Employee!! Requested id is not in the employee list.");
+	
 	}
 }
