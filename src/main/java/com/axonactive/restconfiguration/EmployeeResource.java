@@ -23,12 +23,13 @@ import com.axonactive.exception.InvalidValueException;
 import com.axonactive.exception.ParameterMissingException;
 import com.axonactive.services.EmployeeService;
 
+import io.swagger.annotations.Api;
+
 @Stateless
 @Path("/example")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
 @Api(value = "Employee service")
-@Log
 public class EmployeeResource {
 
 	@EJB

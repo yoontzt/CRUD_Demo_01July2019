@@ -65,7 +65,7 @@ public class WebHandler implements Serializable {
 	public void addNewEmployee() {
 		employee.setDepartment(department);
 		empService.addEmployee(employee);
-		employeeList = empService.getAllEmployeeList();
+		employeeList = empService.getAllEmployeeList();	
 		clear();
 		PrimeFaces.current().executeScript("PF('addEmployee').hide()");
 	}
