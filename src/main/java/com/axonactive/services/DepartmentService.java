@@ -19,15 +19,16 @@ public class DepartmentService extends GenericService<DepartmentEntity, Departme
 	
 	DepartmentConverter departmentConverter = new DepartmentConverter();
 	
-	public List<DepartmentDTO> getAll() {
-		TypedQuery<DepartmentEntity> q = em.createNamedQuery("showDepartmentList", DepartmentEntity.class);
-		List<DepartmentEntity> departmentEntities = q.getResultList();
+	public List<DepartmentDTO> getAllDepartmentList() {
+		TypedQuery<DepartmentEntity> query = em.createNamedQuery("showDepartmentList", DepartmentEntity.class);
+		List<DepartmentEntity> departmentEntities = query.getResultList();
 		return departmentConverter.toDTOs(departmentEntities);
 	}
 
 	public DepartmentEntity findDepartmentById(int deptId) {
 		List<DepartmentEntity> department = em.createNamedQuery("findByDepartmentId", DepartmentEntity.class)
 				.setParameter("deptid", deptId).getResultList();
+		
 		if (department.isEmpty())
 			throw new NoResultException("No source found");
 		else
