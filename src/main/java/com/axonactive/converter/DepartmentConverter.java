@@ -25,16 +25,7 @@ public class DepartmentConverter {
 		return null;
 	}
 	
-	public List<DepartmentEntity> toEntities(List<DepartmentDTO> departmentDTOs) {
-		if (departmentDTOs == null) {
-			return Collections.emptyList();
-		}
-		List<DepartmentEntity> entities = new ArrayList<>();
-		departmentDTOs.stream().map(each -> toEntity(each)).filter(Objects::nonNull).forEach(deparmentEntity -> entities.add(deparmentEntity));
-		return entities;
-	}
-	
-	public List<DepartmentDTO> toDTOs(List<DepartmentEntity> deparmentEntities) {
+	public  List<DepartmentDTO> toDTOs(List<DepartmentEntity> deparmentEntities) {
 		if (deparmentEntities == null) {
 			return Collections.emptyList();
 		}
