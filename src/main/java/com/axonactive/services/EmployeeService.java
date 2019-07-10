@@ -25,7 +25,7 @@ public class EmployeeService extends GenericService<EmployeeEntity, EmployeeDTO>
 	 * 
 	 * @return List of employee
 	 */
-	public List<EmployeeDTO> getAll() {
+	public List<EmployeeDTO> getAllEmployeeList() {
 		TypedQuery<EmployeeEntity> q = em.createNamedQuery("showEmployeeList", EmployeeEntity.class);
 		List<EmployeeEntity> employeeEntities = q.getResultList();
 		return employeeConverter.toDTOs(employeeEntities);
@@ -38,21 +38,21 @@ public class EmployeeService extends GenericService<EmployeeEntity, EmployeeDTO>
 	 * @return Employee Information
 	 */
 	
-	public EmployeeEntity findById(int id) {
+	public EmployeeEntity findEmployeeById(int id) {
 		return em.find(EmployeeEntity.class, id);
 	}
 
-	public void addEmployee(EmployeeDTO e) {
-		EmployeeEntity newEntity = employeeConverter.toEntity(e);
-		newEntity.setName(e.getName());
-		newEntity.setAge(e.getAge());
-		newEntity.setEmail(e.getEmail());
-		newEntity.setDepartment(deptService.findDepartmentById(e.getDepartment().getId()));
+	public void addEmployee(EmployeeDTO employee) {
+		EmployeeEntity newEntity = employeeConverter.toEntity(employee);
+		newEntity.setName(employee.getName());
+		newEntity.setAge(employee.getAge());
+		newEntity.setEmail(employee.getEmail());
+		newEntity.setDepartment(deptService.findDepartmentById(employee.getDepartment().getId()));
 		this.save(newEntity);
 	}
 
 	public void updateEmployee(EmployeeDTO e) {
-		EmployeeEntity newEntity = findById(employeeConverter.toEntity(e).getId());
+		EmployeeEntity newEntity = findEmployeeById(employeeConverter.toEntity(e).getId());
 		newEntity.setName(e.getName());
 		newEntity.setAge(e.getAge());
 		newEntity.setEmail(e.getEmail());
@@ -65,7 +65,7 @@ public class EmployeeService extends GenericService<EmployeeEntity, EmployeeDTO>
 	}
 	
 	public void deleteEmployeeForController(EmployeeEntity employeeEntity) {
-		EmployeeEntity empEntity = findById(employeeEntity.getId());
+		EmployeeEntity empEntity = findEmployeeById(employeeEntity.getId());
 		if (empEntity == null) {
 			throw new NoResultException("No source found");
 		}

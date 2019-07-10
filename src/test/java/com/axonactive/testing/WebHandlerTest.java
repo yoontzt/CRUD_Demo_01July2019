@@ -61,14 +61,14 @@ public class WebHandlerTest {
 	}
 
 	@Test
-	public void testInit() {
+	public void testInit_ShouldShowList_WhenPage() {
 		DepartmentDTO department = createDepartment();
 		List<EmployeeDTO> employees = Arrays.asList(createEmployee());
 		List<DepartmentDTO> departments = Arrays.asList(createDepartment());
 
-		Mockito.when(empService.getAll()).thenReturn(employees);
+		Mockito.when(empService.getAllEmployeeList()).thenReturn(employees);
 
-		Mockito.when(depService.getAll()).thenReturn(departments);
+		Mockito.when(depService.getAllDepartmentList()).thenReturn(departments);
 
 		webHandler.init();
 		assertEquals(department, webHandler.getDepartment());
@@ -78,8 +78,8 @@ public class WebHandlerTest {
 	public void testInitException() {
 		List<EmployeeDTO> employees=Arrays.asList();
 		List<DepartmentDTO> departments=Arrays.asList();
-		Mockito.when(depService.getAll()).thenReturn(departments);
-		Mockito.when(empService.getAll()).thenReturn(employees);
+		Mockito.when(depService.getAllDepartmentList()).thenReturn(departments);
+		Mockito.when(empService.getAllEmployeeList()).thenReturn(employees);
 		webHandler.init();				
 	}
 	
@@ -90,7 +90,7 @@ public class WebHandlerTest {
 		webHandler.setDepartment(department);
 		webHandler.setEmployee(employee);
 
-		Mockito.when(empService.getAll()).thenReturn(Arrays.asList(createEmployee()));
+		Mockito.when(empService.getAllEmployeeList()).thenReturn(Arrays.asList(createEmployee()));
 		webHandler.addNewEmployee();
 		Mockito.verify(empService).addEmployee(employee);
 		Mockito.verify(primeFaces).executeScript("PF('addEmployee').hide()");
@@ -106,7 +106,7 @@ public class WebHandlerTest {
 		webHandler.setEmployee(employee);
 
 		// Mock when
-		Mockito.when(empService.getAll()).thenReturn(Arrays.asList(createEmployee()));
+		Mockito.when(empService.getAllEmployeeList()).thenReturn(Arrays.asList(createEmployee()));
 
 		// Call function
 		webHandler.updateEmployeeFromPage();
@@ -127,7 +127,7 @@ public class WebHandlerTest {
 		webHandler.deleteEmployeeFromPage(employee);
 
 		// verify
-		Mockito.verify(empService).getAll();
+		Mockito.verify(empService).getAllEmployeeList();
 	}
 
 	@Test

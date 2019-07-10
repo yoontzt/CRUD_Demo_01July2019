@@ -23,9 +23,14 @@ import com.axonactive.services.EmployeeService;
 
 import exception.AttributeMissingException;
 import exception.MyApplicationException;
-
+import io.swagger.annotations.Api;
+import lombok.extern.java.Log;
 @Stateless
-@Path("employee")
+@Path("/example")
+@Produces({MediaType.APPLICATION_JSON})
+@Consumes({MediaType.APPLICATION_JSON})
+@Api(value = "Employee service")
+@Log
 public class EmployeeResource {
 
 	@EJB
@@ -35,8 +40,8 @@ public class EmployeeResource {
 	
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
-	public List<EmployeeDTO> getAll() {
-		List<EmployeeDTO> employeeList = employeeService.getAll();
+	public List<EmployeeDTO> getAllList() {
+		List<EmployeeDTO> employeeList = employeeService.getAllEmployeeList();
 		if (employeeList.isEmpty()) {
 			throw new MyApplicationException("Currently there is no employee to be showed.");
 		}
@@ -53,7 +58,7 @@ public class EmployeeResource {
 		} catch (NumberFormatException ex) {
 			throw new MyApplicationException("Id should be a number!! Please Check the Id value.");
 		}
-		EmployeeDTO employee = employeeConverter.toDTO(employeeService.findById(Integer.parseInt(id)));
+		EmployeeDTO employee = employeeConverter.toDTO(employeeService.findEmployeeById(Integer.parseInt(id)));
 		if (employee == null) {
 			throw new MyApplicationException("Requested id is not in the list !!");
 		}
@@ -63,9 +68,9 @@ public class EmployeeResource {
 	@POST
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
-	public Response addEmployee(EmployeeDTO emp) {
+	public Response addEmployee(EmployeeDTO employee) {
 		try {
-			employeeService.addEmployee(emp);
+			employeeService.addEmployee(employee);
 		} catch (Exception ex) {
 			throw new AttributeMissingException("Some input parameters are missing!! Please check again.");
 		}
@@ -75,9 +80,9 @@ public class EmployeeResource {
 	@PUT
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
-	public Response updateEmployee(EmployeeDTO emp) {
+	public Response updateEmployee(EmployeeDTO employee) {
 		try {
-			employeeService.updateEmployee(emp);
+			employeeService.updateEmployee(employee);
 		} catch (Exception ex) {
 			throw new AttributeMissingException("Some input parameters are missing!! Please check again.");
 		}
@@ -91,10 +96,10 @@ public class EmployeeResource {
 	public Response deleteEmployeebyId(@PathParam("EmployeeId") String id) {
 		try {
 			Integer.parseInt(id);
-		} catch (NumberFormatException ex) {
+		} catch (NumberFormatException exception) {
 			throw new MyApplicationException("Id should be a number!! Please Check the Id value.");
 		}
-		EmployeeEntity employeeEntity = employeeService.findById(Integer.parseInt(id));
+		EmployeeEntity employeeEntity = employeeService.findEmployeeById(Integer.parseInt(id));
 		if (employeeEntity != null) {
 			employeeService.deleteEmployeeForREST(employeeEntity);
 			return Response.status(Status.OK).build();

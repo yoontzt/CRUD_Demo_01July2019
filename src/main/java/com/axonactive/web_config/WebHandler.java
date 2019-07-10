@@ -49,8 +49,8 @@ public class WebHandler {
 
 	@PostConstruct
 	public void init() {
-		employeeList = empService.getAll();
-		departmentList = depService.getAll();
+		employeeList = empService.getAllEmployeeList();
+		departmentList = depService.getAllDepartmentList();
 		if (departmentList.isEmpty())
 			throw new NoResultException("No source found");
 		else
@@ -60,7 +60,7 @@ public class WebHandler {
 	public void addNewEmployee() {
 		employee.setDepartment(department);
 		empService.addEmployee(employee);
-		employeeList = empService.getAll();
+		employeeList = empService.getAllEmployeeList();
 		clear();
 		PrimeFaces.current().executeScript("PF('addEmployee').hide()");
 	}
@@ -68,13 +68,13 @@ public class WebHandler {
 	public void updateEmployeeFromPage() throws MyApplicationException {
 		employee.setDepartment(department);
 		empService.updateEmployee(employee);
-		employeeList =empService.getAll();
+		employeeList =empService.getAllEmployeeList();
 		PrimeFaces.current().executeScript("PF('UpdateEmployee').hide()");
 	}
 
 	public void deleteEmployeeFromPage(EmployeeDTO employeeDTO)  throws MyApplicationException {
 		empService.deleteEmployeeForController(employeeConverter.toEntity(employeeDTO));
-		employeeList =empService.getAll();
+		employeeList =empService.getAllEmployeeList();
 	}
 
 	public void viewEmployee(EmployeeDTO emp) {
