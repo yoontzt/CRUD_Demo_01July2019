@@ -1,4 +1,4 @@
-package com.axonactive.bom;
+package com.axonactive.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Employee {
+public class EmployeeDTO {
 	private int id;
 	private String name;
 	private Integer age;
 	private String email;
-	private Department department;
+	private DepartmentDTO department;
 }

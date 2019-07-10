@@ -19,8 +19,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.primefaces.PrimeFaces;
 
-import com.axonactive.bom.Department;
-import com.axonactive.bom.Employee;
+import com.axonactive.dto.DepartmentDTO;
+import com.axonactive.dto.EmployeeDTO;
 import com.axonactive.entites.DepartmentEntity;
 import com.axonactive.entites.EmployeeEntity;
 import com.axonactive.services.DepartmentService;
@@ -54,9 +54,9 @@ public class WebHandlerTest {
 
 	@Test
 	public void testInit() {
-		Department department = createDepartment();
-		List<Employee> employees = Arrays.asList(createEmployee());
-		List<Department> departments = Arrays.asList(createDepartment());
+		DepartmentDTO department = createDepartment();
+		List<EmployeeDTO> employees = Arrays.asList(createEmployee());
+		List<DepartmentDTO> departments = Arrays.asList(createDepartment());
 
 		Mockito.when(empService.getAll()).thenReturn(employees);
 
@@ -68,8 +68,8 @@ public class WebHandlerTest {
 	
 	@Test(expected = NoResultException.class)
 	public void testInitException() {
-		List<Employee> employees=Arrays.asList();
-		List<Department> departments=Arrays.asList();
+		List<EmployeeDTO> employees=Arrays.asList();
+		List<DepartmentDTO> departments=Arrays.asList();
 		Mockito.when(depService.getAll()).thenReturn(departments);
 		Mockito.when(empService.getAll()).thenReturn(employees);
 		webHandler.init();				
@@ -77,8 +77,8 @@ public class WebHandlerTest {
 	
 	@Test
 	public void testAddNewEmployee_ShouldHideDialog_WhenAddNewEmployee() {
-		Department department = createDepartment();
-		Employee employee = createEmployee();
+		DepartmentDTO department = createDepartment();
+		EmployeeDTO employee = createEmployee();
 		webHandler.setDepartment(department);
 		webHandler.setEmployee(employee);
 
@@ -92,8 +92,8 @@ public class WebHandlerTest {
 	@Test
 	public void testUpdateEmployeeFromPage_ShouldHideDialog_WhenUpdatedIsSuccessful() {
 		// Init Variables
-		Department department = createDepartment();
-		Employee employee = createEmployee();
+		DepartmentDTO department = createDepartment();
+		EmployeeDTO employee = createEmployee();
 		webHandler.setDepartment(department);
 		webHandler.setEmployee(employee);
 
@@ -110,7 +110,7 @@ public class WebHandlerTest {
 	@Test
 	public void testDeleteEmployeeFromPage_ShouldShowList_WhenDeletedIsSuccessful() {
 		// Init Variables
-		Employee employee = createEmployee();
+		EmployeeDTO employee = createEmployee();
 		webHandler.setEmployee(employee);
 
 		// Mock when
@@ -125,7 +125,7 @@ public class WebHandlerTest {
 	@Test
 	public void testViewEmployee_ShouldShowDialog_WhenViewEmployeeisSuccessful() {
 		// Init Variables
-		Employee employee = createEmployee();
+		EmployeeDTO employee = createEmployee();
 
 		// Call function
 		webHandler.viewEmployee(employee);
@@ -139,7 +139,7 @@ public class WebHandlerTest {
 	public void testChangeDepartment() {
 
 		// Init Variables
-		Department expected = createDepartment();
+		DepartmentDTO expected = createDepartment();
 		DepartmentEntity departmentEntity = createDepartmentEntity();
 
 		// Mock
@@ -150,19 +150,19 @@ public class WebHandlerTest {
 		// Call Function
 		webHandler.changeDepartment(valueChangeEvent);
 		// AssertEquals
-		Department department = webHandler.getDepartment();
+		DepartmentDTO department = webHandler.getDepartment();
 		assertEquals(expected, department);
 
 	}
 
-	private Employee createEmployee() {
-		Department department = createDepartment();
-		return new Employee(1, "Yoon", 20, "yoon@gmail.com", department);
+	private EmployeeDTO createEmployee() {
+		DepartmentDTO department = createDepartment();
+		return new EmployeeDTO(1, "Yoon", 20, "yoon@gmail.com", department);
 	}
 
-	private Department createDepartment() {
+	private DepartmentDTO createDepartment() {
 
-		return new Department(1, "ICT");
+		return new DepartmentDTO(1, "ICT");
 	}
 
 	private DepartmentEntity createDepartmentEntity() {

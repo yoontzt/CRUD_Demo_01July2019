@@ -7,11 +7,11 @@ import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import com.axonactive.bom.Employee;
+import com.axonactive.dto.EmployeeDTO;
 import com.axonactive.entites.EmployeeEntity;
 
 @Stateless
-public class EmployeeService extends GenericService<EmployeeEntity, Employee> {
+public class EmployeeService extends GenericService<EmployeeEntity, EmployeeDTO> {
 	@EJB
 	DepartmentService deptService;
 
@@ -23,7 +23,7 @@ public class EmployeeService extends GenericService<EmployeeEntity, Employee> {
 	 * 
 	 * @return List of employee
 	 */
-	public List<Employee> getAll() {
+	public List<EmployeeDTO> getAll() {
 		TypedQuery<EmployeeEntity> q = em.createNamedQuery("showEmployeeList", EmployeeEntity.class);
 		List<EmployeeEntity> employeeEntities = q.getResultList();
 		return empService.toBoms(employeeEntities);
@@ -40,7 +40,7 @@ public class EmployeeService extends GenericService<EmployeeEntity, Employee> {
 		return em.find(EmployeeEntity.class, id);
 	}
 
-	public void addEmployee(Employee e) {
+	public void addEmployee(EmployeeDTO e) {
 		EmployeeEntity newEntity = empService.toEntity(e);
 		newEntity.setName(e.getName());
 		newEntity.setAge(e.getAge());
@@ -49,7 +49,7 @@ public class EmployeeService extends GenericService<EmployeeEntity, Employee> {
 		this.save(newEntity);
 	}
 
-	public void updateEmployee(Employee e) {
+	public void updateEmployee(EmployeeDTO e) {
 		EmployeeEntity newEntity = findById(empService.toEntity(e).getId());
 		newEntity.setName(e.getName());
 		newEntity.setAge(e.getAge());
@@ -71,7 +71,7 @@ public class EmployeeService extends GenericService<EmployeeEntity, Employee> {
 	}
 
 	@Override
-	public EmployeeEntity toEntity(Employee bom) {
+	public EmployeeEntity toEntity(EmployeeDTO bom) {
 		if (bom != null) {
 			return EmployeeEntity.builder().id(bom.getId()).name(bom.getName()).email(bom.getEmail()).age(bom.getAge())
 					.department(deptService.toEntity(bom.getDepartment())).build();
@@ -80,9 +80,9 @@ public class EmployeeService extends GenericService<EmployeeEntity, Employee> {
 	}
 
 	@Override
-	public Employee toBom(EmployeeEntity entity) {
+	public EmployeeDTO toBom(EmployeeEntity entity) {
 		if (entity != null) {
-			return  new Employee(entity.getId(), entity.getName(), entity.getAge(), entity.getEmail(),
+			return  new EmployeeDTO(entity.getId(), entity.getName(), entity.getAge(), entity.getEmail(),
 					deptService.toBom(entity.getDepartment()));
 		}
 		return null;

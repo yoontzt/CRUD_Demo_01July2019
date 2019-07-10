@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.axonactive.bom.Employee;
+import com.axonactive.dto.EmployeeDTO;
 import com.axonactive.entites.EmployeeEntity;
 import com.axonactive.services.EmployeeService;
 
@@ -29,7 +29,7 @@ public class EmployeeResource {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
-	public List<Employee> showAll() {
+	public List<EmployeeDTO> showAll() {
 		return employeeService.getAll();
 	}
 
@@ -37,14 +37,14 @@ public class EmployeeResource {
 	@Path("{EmployeeId}")
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
-	public Employee read(@PathParam("EmployeeId") int id) {
+	public EmployeeDTO read(@PathParam("EmployeeId") int id) {
 		return employeeService.toBom(employeeService.findById(id));
 	}
 
 	@POST
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
-	public Response addEmployee(Employee emp) {
+	public Response addEmployee(EmployeeDTO emp) {
 		employeeService.addEmployee(emp);
 		return Response.status(Status.OK).build();
 	}
@@ -52,7 +52,7 @@ public class EmployeeResource {
 	@PUT
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.APPLICATION_JSON })
-	public Response updateEmployee(Employee emp) {
+	public Response updateEmployee(EmployeeDTO emp) {
 		employeeService.updateEmployee(emp);
 		return Response.status(Status.OK).build();		
 	}

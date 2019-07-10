@@ -10,16 +10,16 @@ import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import com.axonactive.bom.Department;
+import com.axonactive.dto.DepartmentDTO;
 import com.axonactive.entites.DepartmentEntity;
 
 @Stateless
-public class DepartmentService extends GenericService<DepartmentEntity, Department> {
+public class DepartmentService extends GenericService<DepartmentEntity, DepartmentDTO> {
 
 	@EJB
 	DepartmentService deptService;
 	
-	public List<Department> getAll() {
+	public List<DepartmentDTO> getAll() {
 		TypedQuery<DepartmentEntity> q = em.createNamedQuery("showDepartmentList", DepartmentEntity.class);
 		List<DepartmentEntity> departmentEntities = q.getResultList();
 		return deptService.toBoms(departmentEntities);
@@ -36,21 +36,21 @@ public class DepartmentService extends GenericService<DepartmentEntity, Departme
 
 	
 
-	public DepartmentEntity toEntity(Department bom) {
+	public DepartmentEntity toEntity(DepartmentDTO bom) {
 		if (bom != null) {
 			return new DepartmentEntity(bom.getId(), bom.getName());
 		}
 		return null;
 	}
 
-	public Department toBom(DepartmentEntity entity) {
+	public DepartmentDTO toBom(DepartmentEntity entity) {
 		if (entity != null) {
-			return new Department(entity.getId(), entity.getName());
+			return new DepartmentDTO(entity.getId(), entity.getName());
 		}
 		return null;
 	}
 	@Override
-	public List<DepartmentEntity> toEntities(List<Department> boms) {
+	public List<DepartmentEntity> toEntities(List<DepartmentDTO> boms) {
 		if (boms == null) {
 			return Collections.emptyList();
 		}
@@ -59,11 +59,11 @@ public class DepartmentService extends GenericService<DepartmentEntity, Departme
 		return entities;
 	}
 	@Override
-	public List<Department> toBoms(List<DepartmentEntity> entities) {
+	public List<DepartmentDTO> toBoms(List<DepartmentEntity> entities) {
 		if (entities == null) {
 			return Collections.emptyList();
 		}
-		List<Department> boms = new ArrayList<>();
+		List<DepartmentDTO> boms = new ArrayList<>();
 		entities.stream().map(each -> toBom(each)).filter(Objects::nonNull).forEach(bom -> boms.add(bom));
 		return boms;
 	}

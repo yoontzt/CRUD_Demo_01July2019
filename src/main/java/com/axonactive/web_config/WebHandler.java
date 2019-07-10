@@ -12,8 +12,8 @@ import javax.persistence.NoResultException;
 
 import org.primefaces.PrimeFaces;
 
-import com.axonactive.bom.Department;
-import com.axonactive.bom.Employee;
+import com.axonactive.dto.DepartmentDTO;
+import com.axonactive.dto.EmployeeDTO;
 import com.axonactive.entites.DepartmentEntity;
 import com.axonactive.services.DepartmentService;
 import com.axonactive.services.EmployeeService;
@@ -25,8 +25,8 @@ import lombok.Setter;
 @ManagedBean(name = "webHandler")
 @ViewScoped
 public class WebHandler {
-	private @Getter @Setter Department department = new Department();
-	private @Getter @Setter Employee employee = new Employee();
+	private @Getter @Setter DepartmentDTO department = new DepartmentDTO();
+	private @Getter @Setter EmployeeDTO employee = new EmployeeDTO();
 	private @Getter @Setter DepartmentEntity departmentEntity=new DepartmentEntity();
 	private @Getter @Setter int id;
 
@@ -36,9 +36,9 @@ public class WebHandler {
 	@Inject
 	private DepartmentService depService;
 
-	private @Getter @Setter List<Employee> employeeList = new ArrayList<>();
+	private @Getter @Setter List<EmployeeDTO> employeeList = new ArrayList<>();
 
-	private @Getter @Setter List<Department> departmentList = new ArrayList<>();
+	private @Getter @Setter List<DepartmentDTO> departmentList = new ArrayList<>();
 
 	@PostConstruct
 	public void init() {
@@ -65,12 +65,12 @@ public class WebHandler {
 		PrimeFaces.current().executeScript("PF('UpdateEmployee').hide()");
 	}
 
-	public void deleteEmployeeFromPage(Employee employeeBOM) {
+	public void deleteEmployeeFromPage(EmployeeDTO employeeBOM) {
 		empService.deleteEmployeeForController(empService.toEntity(employeeBOM));
 		employeeList =empService.getAll();
 	}
 
-	public void viewEmployee(Employee emp) {
+	public void viewEmployee(EmployeeDTO emp) {
 		setEmployee(emp);
 		setId(emp.getDepartment().getId());
 		PrimeFaces.current().executeScript("PF('UpdateEmployee').show()");
