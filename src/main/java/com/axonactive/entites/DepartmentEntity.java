@@ -15,12 +15,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@NamedQuery(name = "findByDepartmentId", query = "SELECT d FROM DepartmentEntity d where d.id = :deptid")
-@NamedQuery(name = "showDepartmentList", query = "select d from DepartmentEntity d")
+@NamedQuery(name = DepartmentEntity.FIND_BY_ID, query = "SELECT d FROM DepartmentEntity d where d.id = :deptid")
+@NamedQuery(name = DepartmentEntity.FIND_ALL, query = "select d from DepartmentEntity d")
 @Entity
 @Table(name = "department")
 public class DepartmentEntity {
-
+	private static final String PREFIX = "com.axonactive.entites.Department.";
+	
+	public static final String FIND_BY_ID= PREFIX + "find by Id";
+	
+	public static final String FIND_ALL= PREFIX + "find all";
+	
 	@Id
 	private int id;
 

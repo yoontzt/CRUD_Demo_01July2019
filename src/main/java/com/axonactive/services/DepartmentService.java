@@ -19,13 +19,13 @@ public class DepartmentService extends GenericService<DepartmentEntity> {
 	DepartmentConverter departmentConverter = new DepartmentConverter();
 
 	public List<DepartmentDTO> getAllDepartmentList() {
-		TypedQuery<DepartmentEntity> query = em.createNamedQuery("showDepartmentList", DepartmentEntity.class);
+		TypedQuery<DepartmentEntity> query = em.createNamedQuery(DepartmentEntity.FIND_ALL, DepartmentEntity.class);
 		List<DepartmentEntity> departmentEntities = query.getResultList();
 		return departmentConverter.toDTOs(departmentEntities);
 	}
 
 	public DepartmentEntity findDepartmentById(int deptId) {
-		return em.createNamedQuery("findByDepartmentId", DepartmentEntity.class)
+		return em.createNamedQuery(DepartmentEntity.FIND_BY_ID, DepartmentEntity.class)
 				.setParameter("deptid", deptId).getSingleResult();
 	}
 

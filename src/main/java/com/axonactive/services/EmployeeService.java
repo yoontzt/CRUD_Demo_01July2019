@@ -26,7 +26,7 @@ public class EmployeeService extends GenericService<EmployeeEntity> {
 	 * @return List of employee
 	 */
 	public List<EmployeeDTO> getAllEmployeeList() {
-		TypedQuery<EmployeeEntity> q = em.createNamedQuery("showEmployeeList", EmployeeEntity.class);
+		TypedQuery<EmployeeEntity> q = em.createNamedQuery(EmployeeEntity.FIND_ALL, EmployeeEntity.class);
 		List<EmployeeEntity> employeeEntities = q.getResultList();
 		return employeeConverter.toDTOs(employeeEntities);
 	}
