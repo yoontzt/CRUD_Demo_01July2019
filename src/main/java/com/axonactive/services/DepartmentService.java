@@ -11,7 +11,7 @@ import com.axonactive.dto.DepartmentDTO;
 import com.axonactive.entites.DepartmentEntity;
 
 @Stateless
-public class DepartmentService extends GenericService<DepartmentEntity, DepartmentDTO> {
+public class DepartmentService extends GenericService<DepartmentEntity> {
 
 	@EJB
 	DepartmentService deptService;

@@ -12,7 +12,7 @@ import com.axonactive.dto.EmployeeDTO;
 import com.axonactive.entites.EmployeeEntity;
 
 @Stateless
-public class EmployeeService extends GenericService<EmployeeEntity, EmployeeDTO> {
+public class EmployeeService extends GenericService<EmployeeEntity> {
 	@EJB
 	DepartmentService deptService;
 
