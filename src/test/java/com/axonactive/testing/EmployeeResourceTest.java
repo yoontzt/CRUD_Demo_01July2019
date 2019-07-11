@@ -74,7 +74,7 @@ public class EmployeeResourceTest {
 		SimpleDateFormat timeGMT = new SimpleDateFormat("EEE dd/MM/yyyy HH:mm:ss z");
 		timeGMT.setTimeZone(TimeZone.getTimeZone("GMT+7:00"));
 		String timeStampLocal = timeGMT.format(d);
-		ErrorMessage expected = new ErrorMessage(404, "Requested id is not in the list !!", timeStampLocal);
+		ErrorMessage expected = new ErrorMessage(404, "Requested id is not in the list.", timeStampLocal);
 		
 		Mockito.when(employeeService.findEmployeeById(100)).thenReturn(null);
 		Mockito.when(employeeConverter.toDTO(employeeService.findEmployeeById(100))).thenReturn(null);

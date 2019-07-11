@@ -1,3 +1,4 @@
+
 package com.axonactive.exception;
 
 import static org.junit.Assert.assertEquals;
@@ -17,6 +18,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 @RunWith(PowerMockRunner.class)
+
 @PrepareForTest({ TimeZone.class, Response.class })
 public class ParameterMissingExceptionMapperTest {
 
@@ -27,15 +29,15 @@ public class ParameterMissingExceptionMapperTest {
 	SimpleDateFormat timeGMT;
 
 	@Test
-	public void testToResponse_ShouldReturnBadRequest_WhenExceptionIsGiven() { 
-	
-		Response.status(Status.BAD_REQUEST).entity("" ).build();
-		
+	public void testToResponse_ShouldReturnBadRequest_WhenExceptionIsGiven() {
+
+		Response.status(Status.BAD_REQUEST).entity("").build();
+
 		Response response = parameterMissingException.toResponse(new ParameterMissingException(""));
-	
+
 		PowerMockito.verifyStatic(Response.class);
 		Response.status(Status.BAD_REQUEST);
-		
+
 		assertEquals(Status.BAD_REQUEST, response.getStatusInfo());
 	}
 
