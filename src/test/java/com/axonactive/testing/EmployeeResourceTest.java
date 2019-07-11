@@ -37,15 +37,12 @@ public class EmployeeResourceTest {
 	@Mock
 	EmployeeService employeeService;
 	
-	
-	
 	@Test
 	public void testGetEmployeeById_ShouldReturnEntity_WhenValidEmployeeIdIsGiven() {
 		//EmployeeDTO employee = createEmployeeDTO();
 		
 		Mockito.when(employeeService.findEmployeeById(1)).thenReturn(createEmployeeEntity());
 		Mockito.when(employeeConverter.toDTO(employeeService.findEmployeeById(1))).thenReturn(createEmployeeDTO());
-		
 		
 		Response actual = employeeResource.getEmployeeById("1");
 		assertEquals(200, actual.getStatus()); 
@@ -54,7 +51,7 @@ public class EmployeeResourceTest {
 	
 
 	@Test(expected = InvalidValueException.class)
-	public void testGetEmployeeById_ShouldReturnStatusResponse_WhenNoExistingEmployeeIdIsGiven() {
+	public void testGetEmployeeById_ShouldReturnErrorStatusResponse_WhenNoExistingEmployeeIdIsGiven() {
 
 		Date d = new Date();
 		SimpleDateFormat timeGMT = new SimpleDateFormat("EEE dd/MM/yyyy HH:mm:ss z");
@@ -71,7 +68,7 @@ public class EmployeeResourceTest {
 	
 	
 	@Test(expected = InvalidValueException.class)
-	public void testGetEmployeeById_ShouldReturnStatusResponse_WhenIdIsNotANumber() {
+	public void testGetEmployeeById_ShouldReturnErrorStatusResponse_WhenIdIsNotANumber() {
 		
 		Date d = new Date();
 		SimpleDateFormat timeGMT = new SimpleDateFormat("EEE dd/MM/yyyy HH:mm:ss z");
@@ -84,11 +81,53 @@ public class EmployeeResourceTest {
 	}
 	
 	@Test
-	public void testAddEmployee_ShouldReturnOKStatus_WhenEmployeeDTOIsGiven() {
-		
+	public void testAddEmployee_ShouldReturnOKStatusResponse_WhenEmployeeDTOIsGiven() {
 		Response actual = employeeResource.addEmployee(createEmployeeDTO());
 		Mockito.verify(employeeService).addEmployee(createEmployeeDTO());
 		assertEquals(200, actual.getStatus());
+	}
+	
+	@Test
+	public void testUpdateEmployee_ShouldReturnOKStatusResponse_WhenEmployeeDTOIsGiven() {
+		Response actual = employeeResource.updateEmployee(createEmployeeDTO());
+		Mockito.verify(employeeService).updateEmployee(createEmployeeDTO());
+		assertEquals(200, actual.getStatus());
+	}
+	
+	@Test(expected = InvalidValueException.class)
+	public void testDeleteEmployeeById_ShouldReturnErrorStatusResponse_WhenNoExistingEmployeeIdIsGiven() {
+		Date d = new Date();
+		SimpleDateFormat timeGMT = new SimpleDateFormat("EEE dd/MM/yyyy HH:mm:ss z");
+		timeGMT.setTimeZone(TimeZone.getTimeZone("GMT+7:00"));
+		String timeStampLocal = timeGMT.format(d);
+		ErrorMessage expected = new ErrorMessage(404, "Fail to delete Employee!! Requested id is not in the employee list.", timeStampLocal);
+		
+		Mockito.when(employeeService.findEmployeeById(100)).thenReturn(null);
+		
+		Response actual = employeeResource.deleteEmployeebyId("100");
+		assertEquals(expected,actual.getEntity());
+	}
+
+	@Test(expected = InvalidValueException.class)
+	public void testDeleteEmployeeById_ShouldReturnErrorStatusResponse_WhenIdIsNotANumber() {
+		Date d = new Date();
+		SimpleDateFormat timeGMT = new SimpleDateFormat("EEE dd/MM/yyyy HH:mm:ss z");
+		timeGMT.setTimeZone(TimeZone.getTimeZone("GMT+7:00"));
+		String timeStampLocal = timeGMT.format(d);
+		ErrorMessage expected = new ErrorMessage(404, "Id should be a number!! Please Check the Id value.", timeStampLocal);
+		
+		Response actual = employeeResource.deleteEmployeebyId("gee");
+		assertEquals(expected, actual.getEntity());
+	}
+	
+	@Test
+	public void testDeleteEmployeeById_ShouldReturnOKStatus_WhenValidEmployeeIdIsGiven() {
+		Mockito.when(employeeService.findEmployeeById(1)).thenReturn(createEmployeeEntity());
+		
+		Response actual = employeeResource.deleteEmployeebyId("1");
+		Mockito.verify(employeeService).deleteEmployeeForREST(createEmployeeEntity());
+		
+		assertEquals(200, actual.getStatus()); 
 	}
 	
 		private DepartmentDTO createDepartmentDTO() {
