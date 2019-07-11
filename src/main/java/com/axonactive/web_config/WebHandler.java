@@ -49,7 +49,7 @@ public class WebHandler implements Serializable {
 	DepartmentConverter departmentConverter;
 
 	
-	EmployeeConverter employeeConverter = new EmployeeConverter();
+	private transient EmployeeConverter employeeConverter = new EmployeeConverter();
 
 	private transient @Getter @Setter List<EmployeeDTO> employeeList = new ArrayList<>();
 
