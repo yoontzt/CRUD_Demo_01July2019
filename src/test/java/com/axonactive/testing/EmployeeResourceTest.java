@@ -3,7 +3,9 @@ package com.axonactive.testing;
 import static org.junit.Assert.assertEquals;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 import javax.ws.rs.core.Response;
@@ -38,9 +40,25 @@ public class EmployeeResourceTest {
 	EmployeeService employeeService;
 	
 	@Test
-	public void testGetEmployeeById_ShouldReturnEntity_WhenValidEmployeeIdIsGiven() {
-		//EmployeeDTO employee = createEmployeeDTO();
+	public void testGetAllList_ShouldReturnEmployeeList_WhenListExist() {
+		List<EmployeeDTO> expected = Arrays.asList(createEmployeeDTO(),createEmployeeDTO());
+		List<EmployeeDTO> employeeDTO = Arrays.asList(createEmployeeDTO(),createEmployeeDTO());
 		
+		Mockito.when(employeeService.getAllEmployeeList()).thenReturn(employeeDTO);
+		
+		assertEquals(expected, employeeResource.getAllList());
+	}
+	
+	@Test(expected = InvalidValueException.class)
+	public void testGetAllList_ShouldReturnErrorStatusResponse_WhenListIsEmpty() {
+		List<EmployeeDTO> expected = Arrays.asList();
+		Mockito.when(employeeService.getAllEmployeeList()).thenReturn(Arrays.asList());
+		
+		assertEquals(expected, employeeResource.getAllList());
+	}
+	
+	@Test
+	public void testGetEmployeeById_ShouldReturnEntity_WhenValidEmployeeIdIsGiven() {
 		Mockito.when(employeeService.findEmployeeById(1)).thenReturn(createEmployeeEntity());
 		Mockito.when(employeeConverter.toDTO(employeeService.findEmployeeById(1))).thenReturn(createEmployeeDTO());
 		
@@ -52,7 +70,6 @@ public class EmployeeResourceTest {
 
 	@Test(expected = InvalidValueException.class)
 	public void testGetEmployeeById_ShouldReturnErrorStatusResponse_WhenNoExistingEmployeeIdIsGiven() {
-
 		Date d = new Date();
 		SimpleDateFormat timeGMT = new SimpleDateFormat("EEE dd/MM/yyyy HH:mm:ss z");
 		timeGMT.setTimeZone(TimeZone.getTimeZone("GMT+7:00"));
