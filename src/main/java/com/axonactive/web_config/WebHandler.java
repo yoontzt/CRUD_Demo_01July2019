@@ -48,8 +48,8 @@ public class WebHandler implements Serializable {
 	@EJB
 	DepartmentConverter departmentConverter;
 
-	@EJB
-	EmployeeConverter employeeConverter;
+	
+	EmployeeConverter employeeConverter = new EmployeeConverter();
 
 	private transient @Getter @Setter List<EmployeeDTO> employeeList = new ArrayList<>();
 

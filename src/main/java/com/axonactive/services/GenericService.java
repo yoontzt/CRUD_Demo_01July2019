@@ -3,7 +3,7 @@ package com.axonactive.services;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-public abstract class GenericService<E,B> {
+public abstract class GenericService<E> {
 	
 	@PersistenceContext(name="demo")
 	EntityManager em;
