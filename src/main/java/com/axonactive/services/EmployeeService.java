@@ -34,7 +34,7 @@ public class EmployeeService extends GenericService<EmployeeEntity> {
 	/**
 	 * Find employee by Id from database
 	 * 
-	 * @param id Id of empl
+	 * @param id Id of employee
 	 * @return Employee Information
 	 */
 	
