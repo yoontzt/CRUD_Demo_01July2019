@@ -62,7 +62,7 @@
 					<f:facet name="header">Actions</f:facet>
 					<p:commandButton icon="fa fa-trash red-icon" title="Delete"
 						update="empData" style="width: 60px"
-						action="#{webHandler.deleteEmployeeFromPage(emp)}">
+						action="#{webHandler.deleteEmployeeFromPage(emp.id)}">
 						<p:confirm header="Confirmation" message="Are you sure to delete?"
 							icon="fa fa-exclamation-triangle" />
 					</p:commandButton>

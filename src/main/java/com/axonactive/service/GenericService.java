@@ -6,20 +6,10 @@ import javax.persistence.PersistenceContext;
 public abstract class GenericService<E> {
 	
 	@PersistenceContext(name="demo")
-	EntityManager em;
-	
-	public void setEm(EntityManager em) {
-		this.em=em;
-	}
-	
-	public EntityManager getEm() {
-		return em;
-	}
-	
+	protected EntityManager em;
+
 	public void save(E entity) {
-		if (entity != null) {
 			em.persist(entity);
-		}
 	}
 	
 	public void update(E entity) {

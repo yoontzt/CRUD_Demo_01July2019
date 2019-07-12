@@ -32,7 +32,7 @@ public class EmployeeController implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 7889451587603628722L;
-	
+
 	private transient @Getter @Setter DepartmentDTO department = new DepartmentDTO();
 	private transient @Getter @Setter EmployeeDTO employee = new EmployeeDTO();
 	private transient @Getter @Setter DepartmentEntity departmentEntity = new DepartmentEntity();
@@ -45,7 +45,7 @@ public class EmployeeController implements Serializable {
 	private DepartmentService depService;
 
 	@EJB
-	DepartmentConverter departmentConverter;
+	private DepartmentConverter departmentConverter;
 
 	private transient @Getter @Setter List<EmployeeDTO> employeeList = new ArrayList<>();
 

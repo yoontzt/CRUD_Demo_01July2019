@@ -70,9 +70,6 @@ public class EmployeeResource {
 			throw new InvalidValueException("Id should be a number!! Please Check the Id value.");
 		}
 		EmployeeDTO employee = employeeConverter.toDTO(employeeService.findEmployeeById(Integer.parseInt(id)));
-		if (employee == null) {
-			throw new InvalidValueException("Requested id is not in the list !!");
-		}
 		return Response.status(Status.OK).entity(employee).build();
 	}
 
@@ -81,7 +78,7 @@ public class EmployeeResource {
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@ApiOperation(value = "Add new Employee")
 	  @ApiResponses({
-	    @ApiResponse(code=204, message="Success")
+	    @ApiResponse(code=201, message="Success")
 	  })
 	public Response addEmployee(EmployeeDTO employee) {
 		try {

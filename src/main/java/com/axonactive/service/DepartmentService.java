@@ -14,9 +14,9 @@ import com.axonactive.entity.DepartmentEntity;
 public class DepartmentService extends GenericService<DepartmentEntity> {
 
 	@EJB
-	DepartmentService deptService;
+	private DepartmentService deptService;
 
-	DepartmentConverter departmentConverter = new DepartmentConverter();
+	private DepartmentConverter departmentConverter = new DepartmentConverter();
 
 	public List<DepartmentDTO> getAllDepartmentList() {
 		TypedQuery<DepartmentEntity> query = em.createNamedQuery(DepartmentEntity.FIND_ALL, DepartmentEntity.class);
