@@ -1,6 +1,7 @@
 package com.axonactive.services;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -10,36 +11,31 @@ import javax.persistence.TypedQuery;
 import com.axonactive.converter.EmployeeConverter;
 import com.axonactive.dto.EmployeeDTO;
 import com.axonactive.entites.EmployeeEntity;
+import com.axonactive.exception.InvalidValueException;
 
 @Stateless
 public class EmployeeService extends GenericService<EmployeeEntity> {
 	@EJB
-	DepartmentService deptService;
+	private DepartmentService deptService;
 
 	@EJB
-	EmployeeService empService;
+	private EmployeeService empService;
 	
-	EmployeeConverter employeeConverter = new EmployeeConverter();
-	/**
-	 * Find all employee from database
-	 * 
-	 * @return List of employee
-	 */
+	private EmployeeConverter employeeConverter = new EmployeeConverter();
+	
 	public List<EmployeeDTO> getAllEmployeeList() {
 		TypedQuery<EmployeeEntity> q = em.createNamedQuery("showEmployeeList", EmployeeEntity.class);
 		List<EmployeeEntity> employeeEntities = q.getResultList();
 		return employeeConverter.toDTOs(employeeEntities);
 	}
-
-	/**
-	 * Find employee by Id from database
-	 * 
-	 * @param id Id of employee
-	 * @return Employee Information
-	 */
 	
 	public EmployeeEntity findEmployeeById(int id) {
-		return em.find(EmployeeEntity.class, id);
+		EmployeeEntity employee = em.find(EmployeeEntity.class, id);
+		
+		if(Objects.isNull(employee)) {
+			throw new InvalidValueException("Requested id is not in the list !!");
+		}
+		return employee;
 	}
 
 	public void addEmployee(EmployeeDTO employee) {
@@ -60,16 +56,9 @@ public class EmployeeService extends GenericService<EmployeeEntity> {
 		this.update(newEntity);
 	}
 
-	public void deleteEmployeeForREST(EmployeeEntity empEntity) {
+	public void deleteEmployeeById(Integer id) {
+		EmployeeEntity empEntity = findEmployeeById(id);
 		this.remove(empEntity);
 	}
 	
-	public void deleteEmployeeForController(EmployeeEntity employeeEntity) {
-		EmployeeEntity empEntity = findEmployeeById(employeeEntity.getId());
-		if (empEntity == null) {
-			throw new NoResultException("No source found");
-		}
-		this.remove(empEntity);
-	}
-
 }
