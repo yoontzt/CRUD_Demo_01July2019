@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 import com.axonactive.converter.EmployeeConverter;
 import com.axonactive.dto.EmployeeDTO;
 import com.axonactive.entity.EmployeeEntity;
+import com.axonactive.exception.InvalidValueException;
 
 @Stateless
 public class EmployeeService extends GenericService<EmployeeEntity> {
