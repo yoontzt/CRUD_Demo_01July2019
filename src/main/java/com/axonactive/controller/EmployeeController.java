@@ -1,4 +1,4 @@
-package com.axonactive.web_config;
+package com.axonactive.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,12 +15,11 @@ import javax.persistence.NoResultException;
 import org.primefaces.PrimeFaces;
 
 import com.axonactive.converter.DepartmentConverter;
-import com.axonactive.converter.EmployeeConverter;
 import com.axonactive.dto.DepartmentDTO;
 import com.axonactive.dto.EmployeeDTO;
-import com.axonactive.entites.DepartmentEntity;
-import com.axonactive.services.DepartmentService;
-import com.axonactive.services.EmployeeService;
+import com.axonactive.entity.DepartmentEntity;
+import com.axonactive.service.DepartmentService;
+import com.axonactive.service.EmployeeService;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +27,7 @@ import lombok.Setter;
 @SuppressWarnings("deprecation")
 @ManagedBean(name = "webHandler")
 @ViewScoped
-public class WebHandler implements Serializable {
+public class EmployeeController implements Serializable {
 	/**
 	 * 
 	 */
@@ -47,9 +46,6 @@ public class WebHandler implements Serializable {
 
 	@EJB
 	DepartmentConverter departmentConverter;
-
-	
-	private transient EmployeeConverter employeeConverter = new EmployeeConverter();
 
 	private transient @Getter @Setter List<EmployeeDTO> employeeList = new ArrayList<>();
 
@@ -81,8 +77,8 @@ public class WebHandler implements Serializable {
 		PrimeFaces.current().executeScript("PF('UpdateEmployee').hide()");
 	}
 
-	public void deleteEmployeeFromPage(EmployeeDTO employeeDTO){
-		empService.deleteEmployeeForController(employeeConverter.toEntity(employeeDTO));
+	public void deleteEmployeeFromPage(Integer id) {
+		empService.deleteEmployeeById(id);
 		employeeList = empService.getAllEmployeeList();
 	}
 

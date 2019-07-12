@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.axonactive.dto.EmployeeDTO;
-import com.axonactive.entites.EmployeeEntity;
+import com.axonactive.entity.EmployeeEntity;
 
 public class EmployeeConverter {
 

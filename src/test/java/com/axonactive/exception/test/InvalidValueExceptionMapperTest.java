@@ -1,4 +1,4 @@
-package com.axonactive.exception;
+package com.axonactive.exception.test;
 
 import static org.junit.Assert.*;
 
@@ -15,6 +15,9 @@ import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+
+import com.axonactive.exception.InvalidValueException;
+import com.axonactive.exception.InvalidValueExceptionMapper;
 
 @RunWith(PowerMockRunner.class)
 

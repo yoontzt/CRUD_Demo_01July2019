@@ -1,4 +1,4 @@
-package com.axonactive.services;
+package com.axonactive.service;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import javax.persistence.TypedQuery;
 
 import com.axonactive.converter.DepartmentConverter;
 import com.axonactive.dto.DepartmentDTO;
-import com.axonactive.entites.DepartmentEntity;
+import com.axonactive.entity.DepartmentEntity;
 
 @Stateless
 public class DepartmentService extends GenericService<DepartmentEntity> {

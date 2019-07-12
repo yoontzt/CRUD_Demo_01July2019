@@ -1,5 +1,5 @@
 
-package com.axonactive.exception;
+package com.axonactive.exception.test;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,6 +16,9 @@ import org.mockito.Mock;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+
+import com.axonactive.exception.ParameterMissingException;
+import com.axonactive.exception.ParameterMissingExceptionMapper;
 
 @RunWith(PowerMockRunner.class)
 

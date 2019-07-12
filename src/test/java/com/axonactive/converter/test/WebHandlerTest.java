@@ -1,4 +1,4 @@
-package com.axonactive.testing;
+package com.axonactive.converter.test;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,22 +19,22 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.primefaces.PrimeFaces;
 
+import com.axonactive.controller.EmployeeController;
 import com.axonactive.converter.DepartmentConverter;
 import com.axonactive.converter.EmployeeConverter;
 import com.axonactive.dto.DepartmentDTO;
 import com.axonactive.dto.EmployeeDTO;
-import com.axonactive.entites.DepartmentEntity;
-import com.axonactive.entites.EmployeeEntity;
-import com.axonactive.services.DepartmentService;
-import com.axonactive.services.EmployeeService;
-import com.axonactive.web_config.WebHandler;
+import com.axonactive.entity.DepartmentEntity;
+import com.axonactive.entity.EmployeeEntity;
+import com.axonactive.service.DepartmentService;
+import com.axonactive.service.EmployeeService;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ PrimeFaces.class })
 public class WebHandlerTest {
 
 	@InjectMocks
-	WebHandler webHandler;
+	EmployeeController webHandler;
 
 	@Mock
 	DepartmentService depService;
@@ -124,7 +124,7 @@ public class WebHandlerTest {
 		// Mock when
 		Mockito.when(employeeConverter.toEntity(employee)).thenReturn(createEmployeeEntity());
 		// Call function
-		webHandler.deleteEmployeeFromPage(employee);
+		webHandler.deleteEmployeeFromPage(1);
 
 		// verify
 		Mockito.verify(empService).getAllEmployeeList();

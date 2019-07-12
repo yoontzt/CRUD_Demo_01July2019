@@ -1,4 +1,4 @@
-package com.axonactive.services;
+package com.axonactive.service;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import javax.persistence.TypedQuery;
 
 import com.axonactive.converter.EmployeeConverter;
 import com.axonactive.dto.EmployeeDTO;
-import com.axonactive.entites.EmployeeEntity;
+import com.axonactive.entity.EmployeeEntity;
 
 @Stateless
 public class EmployeeService extends GenericService<EmployeeEntity> {
@@ -60,7 +60,8 @@ public class EmployeeService extends GenericService<EmployeeEntity> {
 		this.update(newEntity);
 	}
 
-	public void deleteEmployeeForREST(EmployeeEntity empEntity) {
+	public void deleteEmployeeById(Integer id) {
+		EmployeeEntity empEntity = findEmployeeById(id);
 		this.remove(empEntity);
 	}
 	

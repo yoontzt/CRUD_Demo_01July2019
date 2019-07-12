@@ -18,10 +18,9 @@ import javax.ws.rs.core.Response.Status;
 
 import com.axonactive.converter.EmployeeConverter;
 import com.axonactive.dto.EmployeeDTO;
-import com.axonactive.entites.EmployeeEntity;
 import com.axonactive.exception.InvalidValueException;
 import com.axonactive.exception.ParameterMissingException;
-import com.axonactive.services.EmployeeService;
+import com.axonactive.service.EmployeeService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -53,9 +52,6 @@ public class EmployeeResource {
 	  })
 	public List<EmployeeDTO> getAllList() {
 		List<EmployeeDTO> employeeList = employeeService.getAllEmployeeList();
-		if (employeeList.isEmpty()) {
-			throw new InvalidValueException("Currently there is no employee to be showed.");
-		}
 		return employeeList;
 	}
 
@@ -122,18 +118,10 @@ public class EmployeeResource {
 	    @ApiResponse(code=204, message="Success"),
 	    @ApiResponse(code=404, message="Not Found")
 	  })
-	public Response deleteEmployeebyId(@PathParam("EmployeeId") String id) {
-		try {
-			Integer.parseInt(id);
-		} catch (NumberFormatException ex) {
-			throw new InvalidValueException("Id should be a number!! Please Check the Id value.");
-		}
-		EmployeeEntity employeeEntity = employeeService.findEmployeeById(Integer.parseInt(id));
-		if (employeeEntity != null) {
-			employeeService.deleteEmployeeForREST(employeeEntity);
-			return Response.status(Status.OK).build();
-		}
-		throw new InvalidValueException("Fail to delete Employee!! Requested id is not in the employee list.");
+	public Response deleteEmployeebyId(@PathParam("EmployeeId") Integer id) {
+		
+		employeeService.deleteEmployeeById(id);
 	
+		return Response.status(Status.OK).build();
 	}
 }

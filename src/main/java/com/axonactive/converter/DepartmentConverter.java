@@ -8,7 +8,7 @@ import java.util.Objects;
 import javax.ejb.Stateless;
 
 import com.axonactive.dto.DepartmentDTO;
-import com.axonactive.entites.DepartmentEntity;
+import com.axonactive.entity.DepartmentEntity;
 
 @Stateless
 public class DepartmentConverter {

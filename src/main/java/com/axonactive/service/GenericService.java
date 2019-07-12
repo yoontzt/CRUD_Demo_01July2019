@@ -1,4 +1,4 @@
-package com.axonactive.services;
+package com.axonactive.service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

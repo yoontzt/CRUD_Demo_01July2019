@@ -1,4 +1,4 @@
-package com.axonactive.testing;
+package com.axonactive.converter.test;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,7 +12,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.axonactive.converter.DepartmentConverter;
 import com.axonactive.dto.DepartmentDTO;
-import com.axonactive.entites.DepartmentEntity;
+import com.axonactive.entity.DepartmentEntity;
 
 @RunWith(PowerMockRunner.class)
 public class DepartmentConverterTest {
