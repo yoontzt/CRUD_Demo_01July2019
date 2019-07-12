@@ -2,11 +2,8 @@ package com.axonactive.converter.test;
 
 import static org.junit.Assert.assertEquals;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import javax.ws.rs.core.Response;
 
@@ -20,10 +17,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import com.axonactive.converter.EmployeeConverter;
 import com.axonactive.dto.DepartmentDTO;
 import com.axonactive.dto.EmployeeDTO;
-import com.axonactive.entity.DepartmentEntity;
-import com.axonactive.entity.EmployeeEntity;
-import com.axonactive.errorbean.ErrorMessage;
-import com.axonactive.exception.InvalidValueException;
 import com.axonactive.restconfiguration.EmployeeResource;
 import com.axonactive.service.EmployeeService;
 
@@ -52,42 +45,12 @@ public class EmployeeResourceTest {
 	
 	@Test
 	public void testGetEmployeeById_ShouldReturnEntity_WhenValidEmployeeIdIsGiven() {
-		Mockito.when(employeeService.findEmployeeById(1)).thenReturn(createEmployeeEntity());
-		Mockito.when(employeeConverter.toDTO(employeeService.findEmployeeById(1))).thenReturn(createEmployeeDTO());
+		Mockito.when(employeeService.findEmployeeById(1)).thenReturn(createEmployeeDTO());
+	
 		
-		Response actual = employeeResource.getEmployeeById("1");
+		Response actual = employeeResource.getEmployeeById(1);
 		assertEquals(200, actual.getStatus()); 
 		assertEquals(createEmployeeDTO(),actual.getEntity());
-	}
-	
-
-	@Test(expected = InvalidValueException.class)
-	public void testGetEmployeeById_ShouldReturnErrorStatusResponse_WhenNoExistingEmployeeIdIsGiven() {
-		Date d = new Date();
-		SimpleDateFormat timeGMT = new SimpleDateFormat("EEE dd/MM/yyyy HH:mm:ss z");
-		timeGMT.setTimeZone(TimeZone.getTimeZone("GMT+7:00"));
-		String timeStampLocal = timeGMT.format(d);
-		ErrorMessage expected = new ErrorMessage(404, "Requested id is not in the list.", timeStampLocal);
-		
-		Mockito.when(employeeService.findEmployeeById(100)).thenReturn(null);
-		Mockito.when(employeeConverter.toDTO(employeeService.findEmployeeById(100))).thenReturn(null);
-		
-		Response actual = employeeResource.getEmployeeById("100");
-		assertEquals(expected,actual.getEntity());
-	}
-	
-	
-	@Test(expected = InvalidValueException.class)
-	public void testGetEmployeeById_ShouldReturnErrorStatusResponse_WhenIdIsNotANumber() {
-		
-		Date d = new Date();
-		SimpleDateFormat timeGMT = new SimpleDateFormat("EEE dd/MM/yyyy HH:mm:ss z");
-		timeGMT.setTimeZone(TimeZone.getTimeZone("GMT+7:00"));
-		String timeStampLocal = timeGMT.format(d);
-		ErrorMessage expected = new ErrorMessage(404, "Id should be a number!! Please Check the Id value.", timeStampLocal);
-		
-		Response actual = employeeResource.getEmployeeById("gee");
-		assertEquals(expected, actual.getEntity());
 	}
 	
 	@Test
@@ -107,7 +70,7 @@ public class EmployeeResourceTest {
 	
 	@Test
 	public void testDeleteEmployeeById_ShouldReturnOKStatus_WhenValidEmployeeIdIsGiven() {
-		Mockito.when(employeeService.findEmployeeById(1)).thenReturn(createEmployeeEntity());
+		Mockito.when(employeeService.findEmployeeById(1)).thenReturn(createEmployeeDTO());
 		
 		Response actual = employeeResource.deleteEmployeebyId(1);
 		Mockito.verify(employeeService).deleteEmployeeById(1);
@@ -119,18 +82,9 @@ public class EmployeeResourceTest {
 		return new DepartmentDTO(1, "ICT");
 	}
 
-	private DepartmentEntity createDepartmentEntity() {
-		return new DepartmentEntity(1, "ICT");
-	}
-
 	private EmployeeDTO createEmployeeDTO() {
 		DepartmentDTO department = createDepartmentDTO();
 		return new EmployeeDTO(1, "Yoon", "20", "yoon@gmail.com", department);
-	}
-	
-	private EmployeeEntity createEmployeeEntity() {
-		DepartmentEntity department = createDepartmentEntity();
-		return new EmployeeEntity(1, "Yoon", "20", "yoon@gmail.com", department);
 	}
 	
 	

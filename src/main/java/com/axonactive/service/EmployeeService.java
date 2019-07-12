@@ -28,9 +28,8 @@ public class EmployeeService extends GenericService<EmployeeEntity> {
 		return employeeConverter.toDTOs(employeeEntities);
 	}
 	
-	public EmployeeEntity findEmployeeById(int id) {
-		EmployeeEntity employee = em.find(EmployeeEntity.class, id);
-		
+	public EmployeeDTO findEmployeeById(int id) {
+		EmployeeDTO employee = employeeConverter.toDTO(em.find(EmployeeEntity.class, id));	
 		if(Objects.isNull(employee)) {
 			throw new InvalidValueException("Requested id is not in the list !!");
 		}
@@ -47,7 +46,7 @@ public class EmployeeService extends GenericService<EmployeeEntity> {
 	}
 
 	public void updateEmployee(EmployeeDTO e) {
-		EmployeeEntity newEntity = findEmployeeById(employeeConverter.toEntity(e).getId());
+		EmployeeEntity newEntity = employeeConverter.toEntity(findEmployeeById(e.getId()));
 		newEntity.setName(e.getName());
 		newEntity.setAge(e.getAge());
 		newEntity.setEmail(e.getEmail());
@@ -56,7 +55,7 @@ public class EmployeeService extends GenericService<EmployeeEntity> {
 	}
 
 	public void deleteEmployeeById(Integer id) {
-		EmployeeEntity empEntity = findEmployeeById(id);
+		EmployeeEntity empEntity = employeeConverter.toEntity(findEmployeeById(id));
 		this.remove(empEntity);
 	}
 	
