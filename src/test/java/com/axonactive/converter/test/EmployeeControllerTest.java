@@ -31,10 +31,10 @@ import com.axonactive.service.EmployeeService;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ PrimeFaces.class })
-public class WebHandlerTest {
+public class EmployeeControllerTest {
 
 	@InjectMocks
-	EmployeeController webHandler;
+	EmployeeController employeeController;
 
 	@Mock
 	DepartmentService depService;
@@ -70,8 +70,8 @@ public class WebHandlerTest {
 
 		Mockito.when(depService.getAllDepartmentList()).thenReturn(departments);
 
-		webHandler.init();
-		assertEquals(department, webHandler.getDepartment());
+		employeeController.init();
+		assertEquals(department, employeeController.getDepartment());
 	}
 	
 	@Test(expected = NoResultException.class)
@@ -80,18 +80,18 @@ public class WebHandlerTest {
 		List<DepartmentDTO> departments=Arrays.asList();
 		Mockito.when(depService.getAllDepartmentList()).thenReturn(departments);
 		Mockito.when(empService.getAllEmployeeList()).thenReturn(employees);
-		webHandler.init();				
+		employeeController.init();				
 	}
 	
 	@Test
 	public void testAddNewEmployee_ShouldHideDialog_WhenAddNewEmployee() {
 		DepartmentDTO department = createDepartment();
 		EmployeeDTO employee = createEmployee();
-		webHandler.setDepartment(department);
-		webHandler.setEmployee(employee);
+		employeeController.setDepartment(department);
+		employeeController.setEmployee(employee);
 
 		Mockito.when(empService.getAllEmployeeList()).thenReturn(Arrays.asList(createEmployee()));
-		webHandler.addNewEmployee();
+		employeeController.addNewEmployee();
 		Mockito.verify(empService).addEmployee(employee);
 		Mockito.verify(primeFaces).executeScript("PF('addEmployee').hide()");
 
@@ -102,14 +102,14 @@ public class WebHandlerTest {
 		// Init Variables
 		DepartmentDTO department = createDepartment();
 		EmployeeDTO employee = createEmployee();
-		webHandler.setDepartment(department);
-		webHandler.setEmployee(employee);
+		employeeController.setDepartment(department);
+		employeeController.setEmployee(employee);
 
 		// Mock when
 		Mockito.when(empService.getAllEmployeeList()).thenReturn(Arrays.asList(createEmployee()));
 
 		// Call function
-		webHandler.updateEmployeeFromPage();
+		employeeController.updateEmployeeFromPage();
 		// verify
 		Mockito.verify(empService).updateEmployee(employee);
 		Mockito.verify(primeFaces).executeScript("PF('UpdateEmployee').hide()");
@@ -119,12 +119,12 @@ public class WebHandlerTest {
 	public void testDeleteEmployeeFromPage_ShouldShowList_WhenDeletedIsSuccessful() {
 		// Init Variables
 		EmployeeDTO employee = createEmployee();
-		webHandler.setEmployee(employee);
+		employeeController.setEmployee(employee);
 
 		// Mock when
 		Mockito.when(employeeConverter.toEntity(employee)).thenReturn(createEmployeeEntity());
 		// Call function
-		webHandler.deleteEmployeeFromPage(1);
+		employeeController.deleteEmployeeFromPage(1);
 
 		// verify
 		Mockito.verify(empService).getAllEmployeeList();
@@ -136,7 +136,7 @@ public class WebHandlerTest {
 		EmployeeDTO employee = createEmployee();
 
 		// Call function
-		webHandler.viewEmployee(employee);
+		employeeController.viewEmployee(employee);
 
 		// verify
 		Mockito.verify(primeFaces).executeScript("PF('UpdateEmployee').show()");
@@ -156,9 +156,9 @@ public class WebHandlerTest {
 		Mockito.when(departmentConverter.toDTO(departmentEntity)).thenReturn(createDepartment());
 
 		// Call Function
-		webHandler.changeDepartment(valueChangeEvent);
+		employeeController.changeDepartment(valueChangeEvent);
 		// AssertEquals
-		DepartmentDTO department = webHandler.getDepartment();
+		DepartmentDTO department = employeeController.getDepartment();
 		assertEquals(expected, department);
 
 	}

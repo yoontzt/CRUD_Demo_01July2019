@@ -27,7 +27,7 @@
 					</p:commandButton>
 				</h:panelGrid>
 			</div>
-			<p:dataTable id="empData" value="#{webHandler.employeeList}"
+			<p:dataTable id="empData" value="#{employeeController.employeeList}"
 				var="emp" reflow="true" rows="10" paginatorPosition="bottom"
 				paginator="true" styleClass="employeeTable"
 				headerClass="employeeTableHeader"
@@ -62,7 +62,7 @@
 					<f:facet name="header">Actions</f:facet>
 					<p:commandButton icon="fa fa-trash red-icon" title="Delete"
 						update="empData" style="width: 60px"
-						action="#{webHandler.deleteEmployeeFromPage(emp.id)}">
+						action="#{employeeController.deleteEmployeeFromPage(emp.id)}">
 						<p:confirm header="Confirmation" message="Are you sure to delete?"
 							icon="fa fa-exclamation-triangle" />
 					</p:commandButton>
@@ -78,7 +78,7 @@
 
 					<p:commandButton icon="fa fa-edit orange-icon" title="Edit"
 						update=":updateform" style="width: 60px" 
-						action="#{webHandler.viewEmployee(emp)}">
+						action="#{employeeController.viewEmployee(emp)}">
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>
@@ -97,14 +97,14 @@
 
 				<p:outputLabel for="name" value="Name:" />
 				<p:inputText styleClass="width-100" id="name"
-					value="#{webHandler.employee.name}" required="true"
+					value="#{employeeController.employee.name}" required="true"
 					requiredMessage="" validatorMessage="Please enter a valid name.">
 					<f:validateRegex pattern="^[A-Za-z\s]{1,}[A-Za-z\s]{0,}$" />
 				</p:inputText>
 				<h:message for="name" style="color:red" />
 
 				<p:outputLabel for="age" value="Age:" />
-				<p:inputText id="age" value="#{webHandler.employee.age}"
+				<p:inputText id="age" value="#{employeeController.employee.age}"
 					required="true" label="age" styleClass="width-100"
 					requiredMessage="" converterMessage="Age must be a number."
 					validatorMessage="Age must between 18 and 45.">
@@ -113,7 +113,7 @@
 				<h:message for="age" style="color:red" />
 
 				<p:outputLabel for="email" value="Email:" />
-				<p:inputText id="email" value="#{webHandler.employee.email}"
+				<p:inputText id="email" value="#{employeeController.employee.email}"
 					requiredMessage="" styleClass="width-100" size="20" required="true"
 					label="email" validatorMessage="Please enter a valid message.">
 					<f:validateRegex
@@ -122,10 +122,10 @@
 				<h:message for="email" style="color:red" />
 
 				<p:outputLabel for="department" value="Department" />
-				<p:selectOneMenu id="department" value="#{webHandler.department.id}"
+				<p:selectOneMenu id="department" value="#{employeeController.department.id}"
 					styleClass="width-92" required="true"
-					valueChangeListener="#{webHandler.changeDepartment}">
-					<f:selectItems value="#{webHandler.departmentList}" var="_dept"
+					valueChangeListener="#{employeeController.changeDepartment}">
+					<f:selectItems value="#{employeeController.departmentList}" var="_dept"
 						itemValue="#{_dept.id}" itemLabel="#{_dept.name}" />
 				</p:selectOneMenu>
 
@@ -136,7 +136,7 @@
 					styleClass="btnCancelSave" onclick="PF('addEmployee').hide();" />
 
 				<p:commandButton styleClass="btnCancelSave" icon="fa fa-save"
-					action="#{webHandler.addNewEmployee}" update="emform :listOfEmp"
+					action="#{employeeController.addNewEmployee}" update="emform :listOfEmp"
 					process="@form" value="Save" />
 			</div>
 		</h:form>
@@ -151,7 +151,7 @@
 			<p:panelGrid styleClass="updatePageGrid" id="grid" columns="1">
 
 				<p:outputLabel for="name" value="Name:" />
-				<p:inputText id="name" value="#{webHandler.employee.name}"
+				<p:inputText id="name" value="#{employeeController.employee.name}"
 					required="true" label="name" requiredMessage=""
 					validatorMessage="Please enter a valid name."
 					styleClass="width-100">
@@ -160,7 +160,7 @@
 				<h:message for="name" style="color:red" />
 
 				<p:outputLabel for="age" value="Age:" />
-				<p:inputText id="age" value="#{webHandler.employee.age}"
+				<p:inputText id="age" value="#{employeeController.employee.age}"
 					required="true" label="age" styleClass="width-100"
 					converterMessage="Age must be a number." requiredMessage=""
 					validatorMessage="Age must be between 18 and 45.">
@@ -169,7 +169,7 @@
 				<h:message for="age" style="color:red" />
 
 				<p:outputLabel for="email" value="Email:" />
-				<p:inputText id="email" value="#{webHandler.employee.email}"
+				<p:inputText id="email" value="#{employeeController.employee.email}"
 					requiredMessage="" size="20" required="true" label="email"
 					styleClass="width-100" validatorMessage="Email is invalid.">
 					<f:validateRegex
@@ -178,10 +178,10 @@
 				<h:message for="email" style="color:red" />
 
 				<p:outputLabel for="department" value="Department" />
-				<p:selectOneMenu id="department" value="#{webHandler.id}"
-					valueChangeListener="#{webHandler.changeDepartment}"
+				<p:selectOneMenu id="department" value="#{employeeController.id}"
+					valueChangeListener="#{employeeController.changeDepartment}"
 					styleClass="width-92" required="true">
-					<f:selectItems value="#{webHandler.departmentList}" var="_dept"
+					<f:selectItems value="#{employeeController.departmentList}" var="_dept"
 						itemValue="#{_dept.id}" itemLabel="#{_dept.name}" />
 				</p:selectOneMenu>
 				<h:message for="department" style="color:red" />
@@ -192,7 +192,7 @@
 
 				<p:commandButton value="Update" icon="fa fa-edit"
 					styleClass="btnCancelSave"
-					action="#{webHandler.updateEmployeeFromPage}"
+					action="#{employeeController.updateEmployeeFromPage}"
 					update="updateform :listOfEmp" process="@form" />
 			</div>
 		</h:form>

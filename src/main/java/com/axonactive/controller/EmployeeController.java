@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
@@ -25,7 +24,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @SuppressWarnings("deprecation")
-@ManagedBean(name = "webHandler")
+@ManagedBean(name = "employeeController")
 @ViewScoped
 public class EmployeeController implements Serializable {
 	/**
@@ -44,8 +43,8 @@ public class EmployeeController implements Serializable {
 	@Inject
 	private DepartmentService depService;
 
-	@EJB
-	private DepartmentConverter departmentConverter;
+	
+	private transient DepartmentConverter departmentConverter = new DepartmentConverter();
 
 	private transient @Getter @Setter List<EmployeeDTO> employeeList = new ArrayList<>();
 

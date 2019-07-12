@@ -51,8 +51,8 @@ public class EmployeeResource {
 	    @ApiResponse(code=200, message="Success")
 	  })
 	public List<EmployeeDTO> getAllList() {
-		List<EmployeeDTO> employeeList = employeeService.getAllEmployeeList();
-		return employeeList;
+	
+		return employeeService.getAllEmployeeList();
 	}
 
 	@GET
