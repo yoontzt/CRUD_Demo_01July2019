@@ -19,10 +19,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@NamedQuery(name = "showEmployeeList", query = "select e from EmployeeEntity e order by e.id ASC")
+@NamedQuery(name = EmployeeEntity.FIND_ALL, query = "select e from EmployeeEntity e order by e.id ASC")
 @Entity
 @Table(name = "employee")
 public class EmployeeEntity {
+	private static final String PREFIX = "com.axonactive.entities.Employee.";
+	
+	public static final String FIND_ALL= PREFIX + "findall";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

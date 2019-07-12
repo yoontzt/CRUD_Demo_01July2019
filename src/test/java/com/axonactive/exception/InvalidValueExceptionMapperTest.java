@@ -1,7 +1,6 @@
-
 package com.axonactive.exception;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
@@ -20,10 +19,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @RunWith(PowerMockRunner.class)
 
 @PrepareForTest({ TimeZone.class, Response.class })
-public class ParameterMissingExceptionMapperTest {
-
+public class InvalidValueExceptionMapperTest {
 	@InjectMocks
-	ParameterMissingExceptionMapper parameterMissingException;
+	InvalidValueExceptionMapper invalidValueExceptionMapper;
 
 	@Mock
 	SimpleDateFormat timeGMT;
@@ -31,14 +29,14 @@ public class ParameterMissingExceptionMapperTest {
 	@Test
 	public void testToResponse_ShouldReturnBadRequest_WhenExceptionIsGiven() {
 
-		Response.status(Status.BAD_REQUEST).entity("").build();
+		Response.status(Status.NOT_FOUND).entity("").build();
 
-		Response response = parameterMissingException.toResponse(new ParameterMissingException(""));
+		Response response = invalidValueExceptionMapper.toResponse(new InvalidValueException(""));
 
 		PowerMockito.verifyStatic(Response.class);
-		Response.status(Status.BAD_REQUEST);
+		Response.status(Status.NOT_FOUND);
 
-		assertEquals(Status.BAD_REQUEST, response.getStatusInfo());
+		assertEquals(Status.NOT_FOUND, response.getStatusInfo());
 	}
 
 }

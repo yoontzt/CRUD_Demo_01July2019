@@ -1,3 +1,4 @@
+
 package com.axonactive.exception;
 
 import java.text.SimpleDateFormat;
@@ -11,9 +12,8 @@ import javax.ws.rs.ext.Provider;
 
 import com.axonactive.errorbean.ErrorMessage;
 
-
 @Provider
-public class ParameterMissingExceptionMapper implements ExceptionMapper<ParameterMissingException>{
+public class ParameterMissingExceptionMapper implements ExceptionMapper<ParameterMissingException> {
 
 	@Override
 	public Response toResponse(ParameterMissingException exception) {

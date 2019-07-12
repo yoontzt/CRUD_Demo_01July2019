@@ -3,7 +3,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c= "http://java.sun.com/jsp/jstl/core">
 
 <h:head>
 	<title>CRUD DEMO</title>
@@ -22,7 +23,8 @@
 					<h:outputText value="Manage Employee" styleClass="dataTabletitle" />
 					<p:commandButton id="addBtn" icon="fa fa-plus-circle blue-icon"
 						value="New Employee" onclick="PF('addEmployee').show();"
-						styleClass="newEmpBtn" />
+						styleClass="newEmpBtn" >
+					</p:commandButton>
 				</h:panelGrid>
 			</div>
 			<p:dataTable id="empData" value="#{webHandler.employeeList}"

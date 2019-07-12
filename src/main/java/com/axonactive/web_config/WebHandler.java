@@ -68,16 +68,16 @@ public class WebHandler implements Serializable {
 	public void addNewEmployee() {
 		employee.setDepartment(department);
 		empService.addEmployee(employee);
-		employeeList = empService.getAllEmployeeList();
-		clear();
+		employeeList = empService.getAllEmployeeList();	
+		createNewEmployee();
 		PrimeFaces.current().executeScript("PF('addEmployee').hide()");
 	}
 
 	public void updateEmployeeFromPage() {
 		employee.setDepartment(department);
 		empService.updateEmployee(employee);
-		employeeList = empService.getAllEmployeeList();
-		clear();
+		employeeList =empService.getAllEmployeeList();
+		createNewEmployee();
 		PrimeFaces.current().executeScript("PF('UpdateEmployee').hide()");
 	}
 
@@ -97,7 +97,7 @@ public class WebHandler implements Serializable {
 				.toDTO(depService.findDepartmentById(Integer.parseInt(dept.getNewValue().toString())));
 	}
 
-	private void clear() {
+	private void createNewEmployee() {
 		employee = new EmployeeDTO();
 	}
 }
