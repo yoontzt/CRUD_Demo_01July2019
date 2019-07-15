@@ -37,6 +37,9 @@ public class EmployeeController implements Serializable {
 	private transient @Getter @Setter DepartmentEntity departmentEntity = new DepartmentEntity();
 	private @Getter @Setter int id;
 
+	private @Getter @Setter boolean addDialog = true;
+	private @Getter @Setter boolean updateDialog;
+
 	@Inject
 	private EmployeeService empService;
 
@@ -64,16 +67,19 @@ public class EmployeeController implements Serializable {
 		employee.setDepartment(department);
 		empService.addEmployee(employee);
 		employeeList = empService.getAllEmployeeList();	
-		createNewEmployee();
-		PrimeFaces.current().executeScript("PF('addEmployee').hide()");
+		employee = new EmployeeDTO();
+		addDialog = false;
+		PrimeFaces.current().executeScript("PF('Dialog').hide()");
 	}
 
 	public void updateEmployeeFromPage() {
 		employee.setDepartment(department);
 		empService.updateEmployee(employee);
 		employeeList =empService.getAllEmployeeList();
-		createNewEmployee();
-		PrimeFaces.current().executeScript("PF('UpdateEmployee').hide()");
+		employee = new EmployeeDTO();	
+		updateDialog = false;
+		addDialog = true;
+		PrimeFaces.current().executeScript("PF('Dialog').hide()");
 	}
 
 	public void deleteEmployeeFromPage(Integer id) {
@@ -84,7 +90,9 @@ public class EmployeeController implements Serializable {
 	public void viewEmployee(EmployeeDTO emp) {
 		setEmployee(emp);
 		setId(emp.getDepartment().getId());
-		PrimeFaces.current().executeScript("PF('UpdateEmployee').show()");
+		addDialog = false;
+		updateDialog = true;
+		PrimeFaces.current().executeScript("PF('Dialog').show()");
 	}
 
 	public void changeDepartment(ValueChangeEvent dept) {
@@ -92,7 +100,11 @@ public class EmployeeController implements Serializable {
 				.toDTO(depService.findDepartmentById(Integer.parseInt(dept.getNewValue().toString())));
 	}
 
-	private void createNewEmployee() {
+	public void clearEmployee() {
 		employee = new EmployeeDTO();
+		PrimeFaces.current().executeScript("PF('Dialog').hide()");
+	}
+	public void openAddDialog() {
+		PrimeFaces.current().executeScript("PF('Dialog').show()");
 	}
 }
